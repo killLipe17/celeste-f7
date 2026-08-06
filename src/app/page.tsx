@@ -429,6 +429,7 @@ export default function Home() {
       <section
         id="patrocinadores"
         className="scroll-mt-20 bg-white py-20 text-club-deep sm:py-24"
+        style={{ colorScheme: "light" }}
       >
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
@@ -438,7 +439,10 @@ export default function Home() {
             dark={false}
           />
 
-          <div className="mt-10 overflow-hidden rounded-3xl border border-club-deep/10 bg-[#f8fbfd] px-5 py-10 sm:px-10 sm:py-14">
+          <div
+            className="mt-10 overflow-hidden rounded-3xl border border-club-deep/10 px-5 py-10 sm:px-10 sm:py-14"
+            style={{ backgroundColor: "#ffffff" }}
+          >
             <Image
               src={images.sponsors}
               alt="Logotipos dos patrocinadores do Celeste F7"
