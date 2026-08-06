@@ -6,10 +6,26 @@ export const siteData = {
     foundingYear: 2007,
     founder: "Danillo Scalli",
     chant: "1, 2, 3, Celeste!",
+    chantParts: ["1", "2", "3", "Celeste!"],
   },
+  board: ["Danillo", "Hélio", "Bob", "Rodrigo", "Guilherme"],
   schedule: {
     day: "Sábado",
     time: "10h",
+  },
+  matches: {
+    next: {
+      date: "08/08",
+      opponent: "MUD F.C",
+      time: "10h",
+      venue: "CDC Rola Bola",
+    },
+    upcoming: [
+      { date: "08/08", opponent: "MUD F.C", time: "10h" },
+      { date: "15/08", opponent: "GANDAIA F7", time: "10h" },
+      { date: "22/08", opponent: "FESTIVAL R9", time: "10h" },
+      { date: "29/08", opponent: "UNIDOS DA DELPI", time: "10h" },
+    ],
   },
   location: {
     city: "São Paulo",
@@ -27,7 +43,6 @@ export const siteData = {
   },
   images: {
     crest: "/images/escudo-celeste.png",
-    founder: "/images/fundador-danillo.jpg",
     sponsors: "/images/patrocinadores-celeste.png",
   },
 } as const;

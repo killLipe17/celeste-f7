@@ -16,7 +16,7 @@ const barlowCondensed = Barlow_Condensed({
 
 export const metadata: Metadata = {
   title: {
-    default: "Celeste F7 | Futebol Society da Zona Leste",
+    default: "Celeste F7 | Futebol Society",
     template: "%s | Celeste F7",
   },
   description:
@@ -35,7 +35,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: ReactNode }>) {
   return (
     <html
       lang="pt-BR"

@@ -11,7 +11,7 @@ const navigation = [
 ];
 
 export default function Home() {
-  const { team, schedule, location, social, images } = siteData;
+  const { team, board, schedule, matches, location, social, images } = siteData;
 
   return (
     <main className="min-h-screen overflow-hidden bg-club-deep text-white">
@@ -30,17 +30,16 @@ export default function Home() {
               className="h-14 w-auto object-contain transition-transform duration-300 group-hover:-translate-y-0.5"
               preload
             />
-            <div className="leading-none">
-              <span className="font-display text-2xl font-black uppercase tracking-[0.05em]">
-                Celeste F7
-              </span>
-              <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.24em] text-club-sky">
-                Zona Leste • São Paulo
-              </span>
-            </div>
+
+            <span className="font-display text-2xl font-black uppercase tracking-[0.05em]">
+              Celeste F7
+            </span>
           </a>
 
-          <nav className="hidden items-center gap-7 lg:flex" aria-label="Navegação principal">
+          <nav
+            className="hidden items-center gap-7 lg:flex"
+            aria-label="Navegação principal"
+          >
             {navigation.map((item) => (
               <a
                 key={item.href}
@@ -67,6 +66,7 @@ export default function Home() {
               <span className="sr-only">Abrir menu</span>
               <MenuIcon />
             </summary>
+
             <nav
               className="absolute right-0 top-14 w-64 rounded-2xl border border-white/10 bg-club-navy p-3 shadow-2xl"
               aria-label="Navegação móvel"
@@ -80,6 +80,7 @@ export default function Home() {
                   {item.label}
                 </a>
               ))}
+
               <a
                 href={social.instagram.url}
                 target="_blank"
@@ -106,6 +107,7 @@ export default function Home() {
               <span className="rounded-full border border-club-sky/40 bg-club-sky/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-club-sky">
                 Fundado em {team.foundingYear}
               </span>
+
               <span className="text-xs font-bold uppercase tracking-[0.18em] text-white/55">
                 Futebol 7 Society
               </span>
@@ -114,12 +116,15 @@ export default function Home() {
             <p className="mb-3 font-display text-xl font-bold uppercase tracking-[0.3em] text-club-sky sm:text-2xl">
               Zona Leste em campo
             </p>
+
             <h1 className="font-display text-[clamp(4.8rem,17vw,10rem)] font-black uppercase leading-[0.72] tracking-[-0.045em] text-white">
               Celeste
               <span className="ml-3 text-outline">F7</span>
             </h1>
+
             <p className="mt-8 max-w-2xl text-lg leading-8 text-white/72 sm:text-xl">
-              Desde 2007, construindo uma história de união, identidade e paixão pelo futebol na Zona Leste de São Paulo.
+              Desde 2007, construindo uma história de união, identidade e paixão
+              pelo futebol na Zona Leste de São Paulo.
             </p>
 
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
@@ -130,6 +135,7 @@ export default function Home() {
                 Nossa história
                 <ArrowDownIcon />
               </a>
+
               <a
                 href={social.instagram.url}
                 target="_blank"
@@ -142,7 +148,7 @@ export default function Home() {
             </div>
 
             <div className="mt-12 grid max-w-2xl grid-cols-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045] backdrop-blur-sm">
-              <HeroStat value="2007" label="Fundação" />
+              <HeroStat value={String(team.foundingYear)} label="Fundação" />
               <HeroStat value={schedule.day} label="Dia de jogo" />
               <HeroStat value={schedule.time} label="Horário" />
             </div>
@@ -150,9 +156,11 @@ export default function Home() {
 
           <div className="relative mx-auto flex w-full max-w-xl items-center justify-center lg:justify-end">
             <div className="absolute inset-x-8 bottom-0 h-20 rounded-[50%] bg-black/50 blur-2xl" />
+
             <div className="crest-stage relative aspect-square w-full max-w-[510px]">
               <div className="absolute inset-[7%] rounded-full border border-club-sky/20" />
               <div className="absolute inset-[15%] rounded-full border border-white/10" />
+
               <Image
                 src={images.crest}
                 alt="Escudo oficial do Celeste F7"
@@ -161,6 +169,7 @@ export default function Home() {
                 className="relative z-10 h-full w-full object-contain p-8 drop-shadow-[0_30px_35px_rgba(0,0,0,0.5)] sm:p-12"
                 preload
               />
+
               <span className="absolute bottom-[8%] right-[2%] z-20 rounded-full border border-white/15 bg-club-deep/80 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white backdrop-blur">
                 Desde 2007
               </span>
@@ -169,39 +178,47 @@ export default function Home() {
         </div>
 
         <div className="mx-auto w-full max-w-7xl px-5 pb-8 sm:px-8 lg:px-10">
-          <div className="chant-banner flex flex-col items-center justify-between gap-4 rounded-2xl border border-club-sky/25 bg-club-sky/10 px-6 py-5 text-center sm:flex-row sm:text-left">
-            <span className="text-xs font-black uppercase tracking-[0.24em] text-club-sky">
-              Nosso grito antes da partida
-            </span>
-            <strong className="font-display text-3xl font-black uppercase tracking-[0.06em] text-white sm:text-4xl">
-              “{team.chant}”
-            </strong>
+          <div className="chant-banner flex items-center justify-center rounded-2xl border border-club-sky/25 bg-club-sky/10 px-6 py-6 text-center">
+            <div aria-label={team.chant}>
+              <div className="chant-sequence font-display font-black uppercase tracking-[0.04em]">
+                {team.chantParts.map((part) => (
+                  <span key={part} className="chant-word">
+                    {part}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="jogos" className="scroll-mt-20 bg-white py-20 text-club-deep sm:py-24">
+      <section
+        id="jogos"
+        className="scroll-mt-20 bg-white py-20 text-club-deep sm:py-24"
+      >
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="Central de jogos"
             title="Acompanhe o Celeste"
-            description="A estrutura já está preparada para receber a tabela oficial, os próximos confrontos e os últimos resultados."
+            description="Confira o próximo compromisso do time e o calendário confirmado desta sequência de jogos."
             dark={false}
           />
 
           <div className="mt-10 grid gap-5 lg:grid-cols-[1.12fr_0.88fr]">
             <article className="score-card relative overflow-hidden rounded-3xl bg-club-navy p-6 text-white shadow-[0_20px_70px_rgba(4,23,52,0.18)] sm:p-8">
               <div className="absolute right-0 top-0 h-full w-1/2 bg-[linear-gradient(135deg,transparent_20%,rgba(28,181,237,0.12)_20%,rgba(28,181,237,0.12)_45%,transparent_45%)]" />
+
               <div className="relative z-10 flex items-center justify-between gap-4">
                 <span className="rounded-full bg-club-sky px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-club-deep">
                   Próximo jogo
                 </span>
+
                 <span className="text-xs font-bold uppercase tracking-[0.16em] text-white/50">
-                  A confirmar
+                  {matches.next.date}
                 </span>
               </div>
 
-              <div className="relative z-10 my-12 flex items-center justify-center gap-7 sm:gap-12">
+              <div className="relative z-10 my-12 flex flex-col items-center justify-center gap-8 sm:flex-row sm:gap-12">
                 <div className="flex flex-1 flex-col items-center gap-3 text-center">
                   <Image
                     src={images.crest}
@@ -210,32 +227,39 @@ export default function Home() {
                     height={510}
                     className="h-24 w-auto object-contain sm:h-28"
                   />
+
                   <strong className="font-display text-2xl font-black uppercase sm:text-3xl">
                     Celeste F7
                   </strong>
                 </div>
 
                 <div className="flex flex-col items-center">
-                  <span className="font-display text-4xl font-black text-club-sky">VS</span>
+                  <span className="font-display text-4xl font-black text-club-sky">
+                    VS
+                  </span>
+
                   <span className="mt-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
-                    Em breve
+                    Sábado • {matches.next.time}
                   </span>
                 </div>
 
                 <div className="flex flex-1 flex-col items-center gap-3 text-center">
-                  <div className="flex h-24 w-24 items-center justify-center rounded-full border border-dashed border-white/25 bg-white/5 sm:h-28 sm:w-28">
-                    <ShieldIcon />
+                  <div className="w-full max-w-[240px] rounded-3xl border border-white/15 bg-white/5 px-5 py-7">
+                    <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/45">
+                      Adversário
+                    </span>
+
+                    <strong className="mt-2 block font-display text-3xl font-black uppercase leading-none text-white sm:text-4xl">
+                      {matches.next.opponent}
+                    </strong>
                   </div>
-                  <strong className="font-display text-2xl font-black uppercase text-white/45 sm:text-3xl">
-                    Adversário
-                  </strong>
                 </div>
               </div>
 
               <div className="relative z-10 grid gap-3 border-t border-white/10 pt-5 text-sm text-white/65 sm:grid-cols-3">
-                <InfoLine label="Data" value="A confirmar" />
-                <InfoLine label="Horário" value="A confirmar" />
-                <InfoLine label="Local" value={location.venue} />
+                <InfoLine label="Data" value={matches.next.date} />
+                <InfoLine label="Horário" value={matches.next.time} />
+                <InfoLine label="Local" value={matches.next.venue} />
               </div>
             </article>
 
@@ -245,79 +269,118 @@ export default function Home() {
                   <p className="text-xs font-black uppercase tracking-[0.18em] text-club-blue">
                     Calendário
                   </p>
+
                   <h3 className="mt-2 font-display text-4xl font-black uppercase leading-none">
-                    Temporada em definição
+                    Jogos confirmados
                   </h3>
                 </div>
+
                 <CalendarIcon />
               </div>
 
               <div className="my-9 space-y-3">
-                <CalendarRow label="Próxima rodada" value="A confirmar" />
-                <CalendarRow label="Competição" value="A confirmar" />
-                <CalendarRow label="Tabela completa" value="Em breve" />
+                {matches.upcoming.map((match) => (
+                  <CalendarRow
+                    key={`${match.date}-${match.opponent}`}
+                    date={match.date}
+                    opponent={match.opponent}
+                    time={match.time}
+                  />
+                ))}
               </div>
 
               <p className="text-sm leading-6 text-club-deep/60">
-                Assim que o calendário for confirmado, os jogos serão publicados nesta área com data, horário, local e adversário.
+                Todos os jogos acontecem aos sábados, às {schedule.time}, no{" "}
+                {location.venue}.
               </p>
             </article>
           </div>
         </div>
       </section>
 
-      <section id="historia" className="scroll-mt-20 bg-club-deep py-20 sm:py-24">
-        <div className="mx-auto grid w-full max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-[0.86fr_1.14fr] lg:gap-20 lg:px-10">
-          <div className="relative mx-auto w-full max-w-lg">
-            <div className="absolute -left-4 -top-4 h-full w-full rounded-3xl border border-club-sky/35" />
-            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-club-navy">
-              <Image
-                src={images.founder}
-                alt={`Danillo Scalli, fundador do ${team.name}`}
-                fill
-                sizes="(max-width: 1024px) 90vw, 40vw"
-                className="object-cover object-center"
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-club-deep via-club-deep/75 to-transparent px-6 pb-6 pt-24">
-                <span className="text-xs font-black uppercase tracking-[0.18em] text-club-sky">
-                  Fundador
-                </span>
-                <h3 className="mt-1 font-display text-4xl font-black uppercase">
-                  {team.founder}
-                </h3>
-              </div>
-            </div>
-          </div>
-
+      <section
+        id="historia"
+        className="scroll-mt-20 bg-club-deep py-20 sm:py-24"
+      >
+        <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.94fr_1.06fr] lg:gap-20 lg:px-10">
           <div>
             <SectionHeading
               eyebrow="Nossa história"
               title="Uma identidade que nasceu na Zona Leste"
-              description=""
+              description="O Celeste F7 carrega tradição, união e presença em campo desde 2007."
               dark
             />
 
             <div className="mt-8 space-y-5 text-base leading-8 text-white/70 sm:text-lg">
               <p>
-                O <strong className="text-white">Celeste F7</strong> foi fundado em {team.foundedAt}, por {team.founder}, na cidade de São Paulo.
+                O <strong className="text-white">Celeste F7</strong> foi fundado
+                em {team.foundedAt}, na cidade de São Paulo.
               </p>
+
               <p>
-                Com suas cores azuis e o leão no escudo, o time carrega a identidade da Zona Leste e mantém sua tradição nos jogos de futebol society.
+                Com suas cores azuis e o leão no escudo, o time construiu sua
+                identidade no futebol society amador da Zona Leste, mantendo a
+                união do grupo como parte da sua essência.
               </p>
+
               <p>
-                Aos sábados, o grupo se reúne no {location.venue} para entrar em campo e continuar escrevendo essa história.
+                Aos sábados, às {schedule.time}, o Celeste entra em campo no{" "}
+                {location.venue} e leva consigo o grito que já virou marca do
+                time: <strong className="text-white">{team.chant}</strong>
               </p>
             </div>
 
-            <div className="mt-9 grid gap-4 sm:grid-cols-2">
+            <div className="mt-9 grid gap-4 sm:grid-cols-3">
               <HistoryFact label="Fundação" value={team.foundedAt} />
               <HistoryFact label="Casa do Celeste" value={location.venue} />
+              <HistoryFact label="Nosso grito" value="1, 2, 3, Celeste!" />
             </div>
           </div>
+
+          <article className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 sm:p-8">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-club-sky">
+                  Estrutura do clube
+                </p>
+
+                <h3 className="mt-2 font-display text-4xl font-black uppercase leading-none text-white sm:text-5xl">
+                  Diretoria
+                </h3>
+              </div>
+
+              <DirectorsIcon />
+            </div>
+
+            <p className="mt-6 max-w-2xl text-base leading-7 text-white/65">
+              A diretoria do Celeste F7 sustenta a organização do time e ajuda a
+              manter viva a trajetória construída dentro e fora de campo.
+            </p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {board.map((director) => (
+                <article
+                  key={director}
+                  className="director-card rounded-2xl border border-white/10 bg-white/5 p-5"
+                >
+                  <strong className="block font-display text-3xl font-black uppercase leading-none text-white">
+                    {director}
+                  </strong>
+
+                  <span className="mt-2 block text-sm text-white/50">
+                    Celeste F7
+                  </span>
+                </article>
+              ))}
+            </div>
+          </article>
         </div>
       </section>
 
-      <section id="elenco" className="scroll-mt-20 bg-[#eaf5fb] py-20 text-club-deep sm:py-24">
+      <section
+        id="elenco"
+        className="scroll-mt-20 bg-[#eaf5fb] py-20 text-club-deep sm:py-24"
+      >
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="Nosso grupo"
@@ -339,16 +402,20 @@ export default function Home() {
                 <span className="absolute -right-3 -top-8 font-display text-[10rem] font-black leading-none text-club-blue/[0.055] transition-transform duration-500 group-hover:-translate-x-2">
                   {group.number}
                 </span>
+
                 <div className="relative flex h-full flex-col justify-end">
                   <span className="mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-club-sky/15 text-club-blue">
                     <PlayerIcon />
                   </span>
+
                   <p className="text-xs font-black uppercase tracking-[0.18em] text-club-blue">
                     Em preparação
                   </p>
+
                   <h3 className="mt-2 font-display text-4xl font-black uppercase">
                     {group.role}
                   </h3>
+
                   <p className="mt-3 text-sm leading-6 text-club-deep/55">
                     Informações e fotografias serão publicadas em breve.
                   </p>
@@ -359,7 +426,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="patrocinadores" className="scroll-mt-20 bg-white py-20 text-club-deep sm:py-24">
+      <section
+        id="patrocinadores"
+        className="scroll-mt-20 bg-white py-20 text-club-deep sm:py-24"
+      >
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="Quem joga junto"
@@ -381,17 +451,23 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="localizacao" className="scroll-mt-20 bg-club-blue py-20 sm:py-24">
+      <section
+        id="localizacao"
+        className="scroll-mt-20 bg-club-blue py-20 sm:py-24"
+      >
         <div className="mx-auto grid w-full max-w-7xl items-center gap-10 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:px-10">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-club-ice">
               Nossa casa
             </p>
+
             <h2 className="mt-3 max-w-xl font-display text-5xl font-black uppercase leading-[0.92] sm:text-6xl">
               Onde o Celeste entra em campo
             </h2>
+
             <p className="mt-6 max-w-xl text-lg leading-8 text-white/75">
-              Os jogos acontecem normalmente aos sábados, às {schedule.time}, no {location.venue}.
+              Os jogos acontecem normalmente aos sábados, às {schedule.time}, no{" "}
+              {location.venue}.
             </p>
           </div>
 
@@ -399,13 +475,19 @@ export default function Home() {
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-club-sky text-club-deep">
               <MapPinIcon />
             </div>
+
             <p className="mt-7 text-xs font-black uppercase tracking-[0.18em] text-club-sky">
               Campo oficial
             </p>
+
             <h3 className="mt-2 font-display text-4xl font-black uppercase sm:text-5xl">
               {location.venue}
             </h3>
-            <p className="mt-5 max-w-xl leading-7 text-white/65">{location.address}</p>
+
+            <p className="mt-5 max-w-xl leading-7 text-white/65">
+              {location.address}
+            </p>
+
             <a
               href={location.mapUrl}
               target="_blank"
@@ -425,10 +507,12 @@ export default function Home() {
             <p className="text-xs font-black uppercase tracking-[0.2em] text-club-sky">
               Acompanhe o time
             </p>
+
             <h2 className="mt-3 font-display text-4xl font-black uppercase sm:text-5xl">
               Siga o Celeste no Instagram
             </h2>
           </div>
+
           <a
             href={social.instagram.url}
             target="_blank"
@@ -451,11 +535,15 @@ export default function Home() {
               height={510}
               className="h-12 w-auto object-contain"
             />
+
             <div>
-              <p className="font-display text-xl font-black uppercase">Celeste F7</p>
+              <p className="font-display text-xl font-black uppercase">
+                Celeste F7
+              </p>
               <p className="text-xs text-white/45">Zona Leste • São Paulo</p>
             </div>
           </div>
+
           <p className="text-sm text-white/40">
             © {new Date().getFullYear()} Celeste F7. Todos os direitos reservados.
           </p>
@@ -471,6 +559,7 @@ function HeroStat({ value, label }: { value: string; label: string }) {
       <strong className="block font-display text-xl font-black uppercase text-white sm:text-2xl">
         {value}
       </strong>
+
       <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.16em] text-white/45 sm:text-[10px]">
         {label}
       </span>
@@ -491,9 +580,14 @@ function SectionHeading({
 }) {
   return (
     <div className="max-w-3xl">
-      <p className={`text-xs font-black uppercase tracking-[0.2em] ${dark ? "text-club-sky" : "text-club-blue"}`}>
+      <p
+        className={`text-xs font-black uppercase tracking-[0.2em] ${
+          dark ? "text-club-sky" : "text-club-blue"
+        }`}
+      >
         {eyebrow}
       </p>
+
       <h2
         className={`mt-3 font-display text-5xl font-black uppercase leading-[0.92] sm:text-6xl ${
           dark ? "text-white" : "text-club-deep"
@@ -501,8 +595,13 @@ function SectionHeading({
       >
         {title}
       </h2>
+
       {description ? (
-        <p className={`mt-5 max-w-2xl text-base leading-7 sm:text-lg ${dark ? "text-white/65" : "text-club-deep/60"}`}>
+        <p
+          className={`mt-5 max-w-2xl text-base leading-7 sm:text-lg ${
+            dark ? "text-white/65" : "text-club-deep/60"
+          }`}
+        >
           {description}
         </p>
       ) : null}
@@ -513,17 +612,39 @@ function SectionHeading({
 function InfoLine({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between gap-3 sm:block sm:text-center">
-      <span className="font-bold uppercase tracking-[0.08em] text-white/40">{label}</span>
+      <span className="font-bold uppercase tracking-[0.08em] text-white/40">
+        {label}
+      </span>
+
       <strong className="block text-white/80 sm:mt-1">{value}</strong>
     </div>
   );
 }
 
-function CalendarRow({ label, value }: { label: string; value: string }) {
+function CalendarRow({
+  date,
+  opponent,
+  time,
+}: {
+  date: string;
+  opponent: string;
+  time: string;
+}) {
   return (
     <div className="flex items-center justify-between gap-4 rounded-2xl border border-club-deep/8 bg-white px-4 py-4">
-      <span className="text-sm font-semibold text-club-deep/55">{label}</span>
-      <strong className="text-sm uppercase tracking-[0.06em] text-club-deep">{value}</strong>
+      <div>
+        <span className="text-[11px] font-black uppercase tracking-[0.14em] text-club-blue">
+          {date}
+        </span>
+
+        <strong className="mt-1 block text-sm uppercase tracking-[0.06em] text-club-deep sm:text-base">
+          vs {opponent}
+        </strong>
+      </div>
+
+      <span className="rounded-full bg-club-deep/5 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-club-deep/60">
+        {time}
+      </span>
     </div>
   );
 }
@@ -534,6 +655,7 @@ function HistoryFact({ label, value }: { label: string; value: string }) {
       <span className="text-[10px] font-black uppercase tracking-[0.18em] text-club-sky">
         {label}
       </span>
+
       <strong className="mt-2 block font-display text-2xl font-black uppercase leading-tight text-white">
         {value}
       </strong>
@@ -543,23 +665,52 @@ function HistoryFact({ label, value }: { label: string; value: string }) {
 
 function ArrowUpRightIcon() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M7 17 17 7M7 7h10v10" strokeLinecap="round" strokeLinejoin="round" />
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-4 w-4"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <path
+        d="M7 17 17 7M7 7h10v10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
 function ArrowDownIcon() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="m6 9 6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-4 w-4"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <path
+        d="m6 9 6 6 6-6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
 function MenuIcon() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
     </svg>
   );
@@ -567,26 +718,37 @@ function MenuIcon() {
 
 function InstagramIcon() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+    >
       <rect x="3" y="3" width="18" height="18" rx="5" />
       <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
-function ShieldIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-11 w-11 text-white/25" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M12 3 19 6v5c0 4.8-2.8 8.1-7 10-4.2-1.9-7-5.2-7-10V6l7-3Z" strokeLinejoin="round" />
-      <path d="M9 12h6M12 9v6" strokeLinecap="round" />
+      <circle
+        cx="17.5"
+        cy="6.5"
+        r="1"
+        fill="currentColor"
+        stroke="none"
+      />
     </svg>
   );
 }
 
 function CalendarIcon() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-10 w-10 text-club-blue" fill="none" stroke="currentColor" strokeWidth="1.7">
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-10 w-10 text-club-blue"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+    >
       <rect x="3" y="5" width="18" height="16" rx="3" />
       <path d="M8 3v4M16 3v4M3 10h18" strokeLinecap="round" />
     </svg>
@@ -595,18 +757,58 @@ function CalendarIcon() {
 
 function PlayerIcon() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="1.8">
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-7 w-7"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+    >
       <circle cx="12" cy="8" r="4" />
-      <path d="M5 21c.8-4.2 3-6 7-6s6.2 1.8 7 6" strokeLinecap="round" />
+      <path
+        d="M5 21c.8-4.2 3-6 7-6s6.2 1.8 7 6"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
 
 function MapPinIcon() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="1.8">
-      <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" strokeLinejoin="round" />
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-7 w-7"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+    >
+      <path
+        d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
+        strokeLinejoin="round"
+      />
       <circle cx="12" cy="10" r="2.5" />
+    </svg>
+  );
+}
+
+function DirectorsIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-10 w-10 text-club-sky"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+    >
+      <circle cx="12" cy="7.5" r="3.5" />
+      <path
+        d="M5 20c.8-3.8 3.1-5.5 7-5.5S18.2 16.2 19 20"
+        strokeLinecap="round"
+      />
+      <path d="M4 9.5h2M18 9.5h2" strokeLinecap="round" />
     </svg>
   );
 }
