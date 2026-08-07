@@ -11,7 +11,7 @@ const navigation = [
 ];
 
 export default function Home() {
-  const { team, board, schedule, matches, location, social, images } = siteData;
+  const { team, board, schedule, matches, location, social, images, sponsors } = siteData;
 
   return (
     <main className="min-h-screen overflow-hidden bg-club-deep text-white">
@@ -439,19 +439,26 @@ export default function Home() {
             dark={false}
           />
 
-          <div
-            className="mt-10 overflow-hidden rounded-3xl border border-club-deep/10 px-5 py-10 sm:px-10 sm:py-14"
-            style={{ backgroundColor: "#ffffff" }}
-          >
-            <Image
-              src={images.sponsors}
-              alt="Logotipos dos patrocinadores do Celeste F7"
-              width={1913}
-              height={396}
-              sizes="(max-width: 1280px) 90vw, 1150px"
-              className="mx-auto h-auto max-h-56 w-full object-contain"
-            />
+          <div className="sponsor-carousel mt-10 rounded-3xl border border-club-deep/10 bg-[#f8fbfd] py-6 sm:py-8">
+            <div className="sponsor-track">
+              <div className="sponsor-group">
+                {sponsors.map((sponsor) => (
+                  <SponsorCard key={sponsor.name} sponsor={sponsor} />
+                ))}
+              </div>
+
+              <div className="sponsor-group" aria-hidden="true">
+                {sponsors.map((sponsor) => (
+                  <SponsorCard
+                    key={`duplicate-${sponsor.name}`}
+                    sponsor={sponsor}
+                    duplicate
+                  />
+                ))}
+              </div>
+            </div>
           </div>
+
         </div>
       </section>
 
@@ -664,6 +671,68 @@ function HistoryFact({ label, value }: { label: string; value: string }) {
         {value}
       </strong>
     </div>
+  );
+}
+
+function SponsorCard({
+  sponsor,
+  duplicate = false,
+}: {
+  sponsor: (typeof siteData.sponsors)[number];
+  duplicate?: boolean;
+}) {
+  return (
+    <article className="sponsor-card overflow-hidden rounded-2xl border border-club-deep/10 bg-white shadow-[0_12px_35px_rgba(3,17,38,0.08)]">
+      <a
+        href={sponsor.primaryUrl}
+        target="_blank"
+        rel="noreferrer"
+        tabIndex={duplicate ? -1 : undefined}
+        className="group block p-5 outline-none focus-visible:ring-2 focus-visible:ring-club-blue sm:p-6"
+        aria-label={`Visitar ${sponsor.name}`}
+      >
+        <div className="flex h-36 items-center justify-center sm:h-40">
+          <Image
+            src={sponsor.image}
+            alt={`Logo ${sponsor.name}`}
+            width={900}
+            height={450}
+            sizes="(max-width: 640px) 72vw, 320px"
+            className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-[1.035]"
+          />
+        </div>
+
+        <div className="mt-5 flex items-end justify-between gap-4 border-t border-club-deep/8 pt-4">
+          <div>
+            <span className="text-[10px] font-black uppercase tracking-[0.16em] text-club-blue">
+              Patrocinador
+            </span>
+            <h3 className="mt-1 font-display text-2xl font-black uppercase leading-none text-club-deep">
+              {sponsor.name}
+            </h3>
+          </div>
+
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-club-sky text-club-deep transition group-hover:bg-club-deep group-hover:text-white">
+            <ArrowUpRightIcon />
+          </span>
+        </div>
+      </a>
+
+      <div className="flex flex-wrap gap-2 border-t border-club-deep/8 bg-[#f6f9fc] px-5 py-3 sm:px-6">
+        {sponsor.links.map((link) => (
+          <a
+            key={link.url}
+            href={link.url}
+            target="_blank"
+            rel="noreferrer"
+            tabIndex={duplicate ? -1 : undefined}
+            className="rounded-full border border-club-deep/10 bg-white px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-club-blue transition hover:border-club-blue hover:bg-club-blue hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-club-blue"
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </article>
   );
 }
 

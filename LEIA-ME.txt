@@ -1,0 +1,22 @@
+ATUALIZAÇÃO — CARROSSEL DE PATROCINADORES
+
+Copie as pastas "src" e "public" deste pacote para:
+D:\Projetos\celeste-f7
+
+Aceite substituir os arquivos existentes quando solicitado.
+
+Arquivos alterados:
+- src/app/page.tsx
+- src/app/globals.css
+- src/data/site.ts
+
+Novas imagens:
+- public/images/sponsors/conlicitar.png
+- public/images/sponsors/cacife-brand.png
+- public/images/sponsors/selva-pub.png
+
+Depois execute:
+npm run dev
+
+Se estiver tudo certo:
+npm run build

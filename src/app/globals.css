@@ -183,6 +183,44 @@ body {
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
 }
 
+.sponsor-carousel {
+  overflow: hidden;
+  color-scheme: light;
+}
+
+.sponsor-track {
+  display: flex;
+  width: max-content;
+  animation: sponsor-marquee 20s linear infinite;
+  will-change: transform;
+}
+
+.sponsor-group {
+  display: flex;
+  gap: 1rem;
+  padding-right: 1rem;
+}
+
+.sponsor-card {
+  width: min(78vw, 340px);
+  flex: 0 0 auto;
+}
+
+.sponsor-carousel:hover .sponsor-track,
+.sponsor-carousel:focus-within .sponsor-track {
+  animation-play-state: paused;
+}
+
+@keyframes sponsor-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @media (max-width: 640px) {
   .text-outline {
     -webkit-text-stroke-width: 1.5px;
@@ -213,6 +251,10 @@ body {
     margin-top: 0.45rem;
     font-size: clamp(4.2rem, 20vw, 6rem);
   }
+
+  .sponsor-track {
+    animation-duration: 17s;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -233,5 +275,18 @@ body {
     opacity: 1;
     transform: none;
     filter: none;
+  }
+
+  .sponsor-carousel {
+    overflow-x: auto;
+  }
+
+  .sponsor-track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .sponsor-group[aria-hidden="true"] {
+    display: none;
   }
 }

@@ -27,6 +27,45 @@ export const siteData = {
       { date: "29/08", opponent: "UNIDOS DA DELPI", time: "10h" },
     ],
   },
+  sponsors: [
+    {
+      name: "Conlicitar",
+      image: "/images/sponsors/conlicitar.png",
+      primaryUrl: "https://www.instagram.com/conlicitar/",
+      links: [
+        {
+          label: "Instagram",
+          url: "https://www.instagram.com/conlicitar/",
+        },
+      ],
+    },
+    {
+      name: "Cacife Brand",
+      image: "/images/sponsors/cacife-brand.png",
+      primaryUrl: "https://www.cacifebrand.com.br/",
+      links: [
+        {
+          label: "Site",
+          url: "https://www.cacifebrand.com.br/",
+        },
+        {
+          label: "Instagram",
+          url: "https://www.instagram.com/cacifebrand/",
+        },
+      ],
+    },
+    {
+      name: "Selva Pub",
+      image: "/images/sponsors/selva-pub.png",
+      primaryUrl: "https://www.instagram.com/selvapub__/",
+      links: [
+        {
+          label: "Instagram",
+          url: "https://www.instagram.com/selvapub__/",
+        },
+      ],
+    },
+  ],
   location: {
     city: "São Paulo",
     state: "SP",
@@ -43,6 +82,5 @@ export const siteData = {
   },
   images: {
     crest: "/images/escudo-celeste.png",
-    sponsors: "/images/patrocinadores-celeste.png",
   },
 } as const;
