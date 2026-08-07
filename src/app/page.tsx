@@ -429,7 +429,7 @@ export default function Home() {
       <section
         id="patrocinadores"
         className="scroll-mt-20 bg-white py-20 text-club-deep sm:py-24"
-        style={{ colorScheme: "light" }}
+        style={{ backgroundColor: "#ffffff", colorScheme: "light" }}
       >
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
@@ -439,7 +439,10 @@ export default function Home() {
             dark={false}
           />
 
-          <div className="sponsor-carousel mt-10 rounded-3xl border border-club-deep/10 bg-[#f8fbfd] py-6 sm:py-8">
+          <div
+            className="sponsor-carousel mt-10 rounded-3xl border border-club-deep/10 bg-white py-6 sm:py-8"
+            style={{ backgroundColor: "#ffffff", colorScheme: "light" }}
+          >
             <div className="sponsor-track">
               <div className="sponsor-group">
                 {sponsors.map((sponsor) => (
@@ -682,7 +685,10 @@ function SponsorCard({
   duplicate?: boolean;
 }) {
   return (
-    <article className="sponsor-card overflow-hidden rounded-2xl border border-club-deep/10 bg-white shadow-[0_12px_35px_rgba(3,17,38,0.08)]">
+    <article
+      className="sponsor-card overflow-hidden rounded-2xl border border-club-deep/10 bg-white shadow-[0_12px_35px_rgba(3,17,38,0.08)]"
+      style={{ backgroundColor: "#ffffff", colorScheme: "light" }}
+    >
       <a
         href={sponsor.primaryUrl}
         target="_blank"
@@ -718,7 +724,10 @@ function SponsorCard({
         </div>
       </a>
 
-      <div className="flex flex-wrap gap-2 border-t border-club-deep/8 bg-[#f6f9fc] px-5 py-3 sm:px-6">
+      <div
+        className="flex flex-wrap gap-2 border-t border-club-deep/8 bg-white px-5 py-3 sm:px-6"
+        style={{ backgroundColor: "#ffffff", colorScheme: "light" }}
+      >
         {sponsor.links.map((link) => (
           <a
             key={link.url}
