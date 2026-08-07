@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { siteData } from "@/data/site";
+import GameCenter from "@/components/GameCenter";
 
 const navigation = [
   { label: "Início", href: "#inicio" },
@@ -11,7 +12,7 @@ const navigation = [
 ];
 
 export default function Home() {
-  const { team, board, schedule, matches, location, social, images, sponsors } = siteData;
+  const { team, board, schedule, location, social, images, sponsors, roster } = siteData;
 
   return (
     <main className="min-h-screen overflow-hidden bg-club-deep text-white">
@@ -108,8 +109,7 @@ export default function Home() {
                 Fundado em {team.foundingYear}
               </span>
 
-              <span className="text-xs font-bold uppercase tracking-[0.18em] text-white/55">
-                Futebol 7 Society
+              <span className="text-xs font-bold uppercase tracking-[0.18em] text-white/55">                Futebol 7 Society
               </span>
             </div>
 
@@ -158,8 +158,7 @@ export default function Home() {
             <div className="absolute inset-x-8 bottom-0 h-20 rounded-[50%] bg-black/50 blur-2xl" />
 
             <div className="crest-stage relative aspect-square w-full max-w-[510px]">
-              <div className="absolute inset-[7%] rounded-full border border-club-sky/20" />
-              <div className="absolute inset-[15%] rounded-full border border-white/10" />
+              <div className="absolute inset-[7%] rounded-full border border-club-sky/20" />              <div className="absolute inset-[15%] rounded-full border border-white/10" />
 
               <Image
                 src={images.crest}
@@ -192,111 +191,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section
-        id="jogos"
-        className="scroll-mt-20 bg-white py-20 text-club-deep sm:py-24"
-      >
-        <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
-          <SectionHeading
-            eyebrow="Central de jogos"
-            title="Acompanhe o Celeste"
-            description="Confira o próximo compromisso do time e o calendário confirmado desta sequência de jogos."
-            dark={false}
-          />
-
-          <div className="mt-10 grid gap-5 lg:grid-cols-[1.12fr_0.88fr]">
-            <article className="score-card relative overflow-hidden rounded-3xl bg-club-navy p-6 text-white shadow-[0_20px_70px_rgba(4,23,52,0.18)] sm:p-8">
-              <div className="absolute right-0 top-0 h-full w-1/2 bg-[linear-gradient(135deg,transparent_20%,rgba(28,181,237,0.12)_20%,rgba(28,181,237,0.12)_45%,transparent_45%)]" />
-
-              <div className="relative z-10 flex items-center justify-between gap-4">
-                <span className="rounded-full bg-club-sky px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-club-deep">
-                  Próximo jogo
-                </span>
-
-                <span className="text-xs font-bold uppercase tracking-[0.16em] text-white/50">
-                  {matches.next.date}
-                </span>
-              </div>
-
-              <div className="relative z-10 my-12 flex flex-col items-center justify-center gap-8 sm:flex-row sm:gap-12">
-                <div className="flex flex-1 flex-col items-center gap-3 text-center">
-                  <Image
-                    src={images.crest}
-                    alt="Escudo do Celeste F7"
-                    width={489}
-                    height={510}
-                    className="h-24 w-auto object-contain sm:h-28"
-                  />
-
-                  <strong className="font-display text-2xl font-black uppercase sm:text-3xl">
-                    Celeste F7
-                  </strong>
-                </div>
-
-                <div className="flex flex-col items-center">
-                  <span className="font-display text-4xl font-black text-club-sky">
-                    VS
-                  </span>
-
-                  <span className="mt-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
-                    Sábado • {matches.next.time}
-                  </span>
-                </div>
-
-                <div className="flex flex-1 flex-col items-center gap-3 text-center">
-                  <div className="w-full max-w-[240px] rounded-3xl border border-white/15 bg-white/5 px-5 py-7">
-                    <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/45">
-                      Adversário
-                    </span>
-
-                    <strong className="mt-2 block font-display text-3xl font-black uppercase leading-none text-white sm:text-4xl">
-                      {matches.next.opponent}
-                    </strong>
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative z-10 grid gap-3 border-t border-white/10 pt-5 text-sm text-white/65 sm:grid-cols-3">
-                <InfoLine label="Data" value={matches.next.date} />
-                <InfoLine label="Horário" value={matches.next.time} />
-                <InfoLine label="Local" value={matches.next.venue} />
-              </div>
-            </article>
-
-            <article className="rounded-3xl border border-club-deep/10 bg-[#f3f8fc] p-6 sm:p-8">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-club-blue">
-                    Calendário
-                  </p>
-
-                  <h3 className="mt-2 font-display text-4xl font-black uppercase leading-none">
-                    Jogos confirmados
-                  </h3>
-                </div>
-
-                <CalendarIcon />
-              </div>
-
-              <div className="my-9 space-y-3">
-                {matches.upcoming.map((match) => (
-                  <CalendarRow
-                    key={`${match.date}-${match.opponent}`}
-                    date={match.date}
-                    opponent={match.opponent}
-                    time={match.time}
-                  />
-                ))}
-              </div>
-
-              <p className="text-sm leading-6 text-club-deep/60">
-                Todos os jogos acontecem aos sábados, às {schedule.time}, no{" "}
-                {location.venue}.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
+      <GameCenter />
 
       <section
         id="historia"
@@ -340,8 +235,7 @@ export default function Home() {
           <article className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 sm:p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-club-sky">
-                  Estrutura do clube
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-club-sky">                  Estrutura do clube
                 </p>
 
                 <h3 className="mt-2 font-display text-4xl font-black uppercase leading-none text-white sm:text-5xl">
@@ -380,49 +274,66 @@ export default function Home() {
       <section
         id="elenco"
         className="scroll-mt-20 bg-[#eaf5fb] py-20 text-club-deep sm:py-24"
+        style={{ colorScheme: "light" }}
       >
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
             eyebrow="Nosso grupo"
             title="Elenco Celeste F7"
-            description="Os cards dos jogadores serão adicionados com foto, nome, número e posição assim que o elenco da temporada for confirmado."
+            description="Mensalistas que fazem parte do grupo atual do Celeste. O time não utiliza numeração fixa de camisa."
             dark={false}
           />
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { number: "01", role: "Goleiros" },
-              { number: "07", role: "Linha" },
-              { number: "CT", role: "Comissão técnica" },
-            ].map((group) => (
-              <article
-                key={group.role}
-                className="player-placeholder group relative min-h-72 overflow-hidden rounded-3xl border border-club-deep/10 bg-white p-6"
-              >
-                <span className="absolute -right-3 -top-8 font-display text-[10rem] font-black leading-none text-club-blue/[0.055] transition-transform duration-500 group-hover:-translate-x-2">
-                  {group.number}
-                </span>
+          <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-3xl bg-club-navy shadow-[0_22px_70px_rgba(3,17,38,0.18)] sm:aspect-[16/9]">
+            <Image
+              src={images.teamPhoto}
+              alt="Foto do time Celeste F7 no campo"
+              fill
+              sizes="(max-width: 1280px) 94vw, 1200px"
+              className="object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-club-deep/85 via-club-deep/5 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
+              <span className="text-xs font-black uppercase tracking-[0.18em] text-club-sky">
+                Celeste F7
+              </span>
+              <h3 className="mt-2 font-display text-4xl font-black uppercase sm:text-5xl">
+                Nosso time
+              </h3>
+            </div>
+          </div>
 
-                <div className="relative flex h-full flex-col justify-end">
-                  <span className="mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-club-sky/15 text-club-blue">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {roster.map((player) => (
+              <article
+                key={player.name}
+                className="group rounded-3xl border border-club-deep/10 bg-white p-5 shadow-[0_12px_35px_rgba(3,17,38,0.06)] transition hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(3,17,38,0.1)]"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-club-sky/15 text-club-blue">
                     <PlayerIcon />
                   </span>
 
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-club-blue">
-                    Em preparação
-                  </p>
-
-                  <h3 className="mt-2 font-display text-4xl font-black uppercase">
-                    {group.role}
-                  </h3>
-
-                  <p className="mt-3 text-sm leading-6 text-club-deep/55">
-                    Informações e fotografias serão publicadas em breve.
-                  </p>
+                  {player.position ? (
+                    <span className="rounded-full bg-club-blue px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] text-white">
+                      {player.position}
+                    </span>
+                  ) : null}
                 </div>
+
+                <p className="mt-6 text-[10px] font-black uppercase tracking-[0.18em] text-club-blue">
+                  {player.status}
+                </p>
+                <h3 className="mt-2 font-display text-3xl font-black uppercase leading-none text-club-deep">
+                  {player.name}
+                </h3>
               </article>
             ))}
           </div>
+
+          <p className="mt-6 text-sm leading-6 text-club-deep/55">
+            Jogadores avulsos podem participar das partidas, mas esta relação apresenta apenas os mensalistas do time.
+          </p>
         </div>
       </section>
 
@@ -623,45 +534,7 @@ function SectionHeading({
   );
 }
 
-function InfoLine({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex justify-between gap-3 sm:block sm:text-center">
-      <span className="font-bold uppercase tracking-[0.08em] text-white/40">
-        {label}
-      </span>
 
-      <strong className="block text-white/80 sm:mt-1">{value}</strong>
-    </div>
-  );
-}
-
-function CalendarRow({
-  date,
-  opponent,
-  time,
-}: {
-  date: string;
-  opponent: string;
-  time: string;
-}) {
-  return (
-    <div className="flex items-center justify-between gap-4 rounded-2xl border border-club-deep/8 bg-white px-4 py-4">
-      <div>
-        <span className="text-[11px] font-black uppercase tracking-[0.14em] text-club-blue">
-          {date}
-        </span>
-
-        <strong className="mt-1 block text-sm uppercase tracking-[0.06em] text-club-deep sm:text-base">
-          vs {opponent}
-        </strong>
-      </div>
-
-      <span className="rounded-full bg-club-deep/5 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-club-deep/60">
-        {time}
-      </span>
-    </div>
-  );
-}
 
 function HistoryFact({ label, value }: { label: string; value: string }) {
   return (
@@ -821,21 +694,6 @@ function InstagramIcon() {
   );
 }
 
-function CalendarIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      className="h-10 w-10 text-club-blue"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.7"
-    >
-      <rect x="3" y="5" width="18" height="16" rx="3" />
-      <path d="M8 3v4M16 3v4M3 10h18" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 function PlayerIcon() {
   return (
