@@ -274,7 +274,11 @@ function TeamMark({
 }) {
   return (
     <div className="flex min-w-0 flex-col items-center gap-3 text-center">
-      <div className="flex h-28 w-28 items-center justify-center rounded-full border border-white/15 bg-white/7 p-4 sm:h-32 sm:w-32">
+      <div
+        className={`flex h-28 w-28 items-center justify-center rounded-full border border-white/15 bg-white/7 sm:h-32 sm:w-32 ${
+          logo ? (opponent ? "p-1.5" : "p-3") : "p-4"
+        }`}
+      >
         {logo ? (
           <Image
             src={logo}
@@ -305,7 +309,7 @@ function CalendarRow({ match }: { match: MatchData }) {
   return (
     <div className="rounded-2xl border border-club-deep/8 bg-white px-4 py-4">
       <div className="flex items-center gap-4">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-club-deep/8 bg-[#f3f8fc] p-2 text-club-blue/35">
+        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-club-deep/8 bg-[#f3f8fc] p-1 text-club-blue/35">
           {match.opponentLogo ? (
             <Image
               src={match.opponentLogo}
@@ -333,7 +337,7 @@ function CalendarRow({ match }: { match: MatchData }) {
         </span>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-2 pl-16">
+      <div className="mt-3 flex flex-wrap gap-2 pl-[4.5rem]">
         <span className="rounded-full bg-club-sky/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-club-blue">
           {match.frameCount === 1 ? "1 quadro" : "2 quadros"}
         </span>
@@ -458,7 +462,7 @@ function MiniTeamMark({
 }) {
   return (
     <div className="min-w-0 text-center">
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/7 p-2 text-white/30">
+      <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-white/10 bg-white/7 p-1.5 text-white/30">
         {logo ? (
           <Image
             src={logo}
@@ -635,11 +639,11 @@ async function generateMatchCard(match: MatchData, mode: CardMode) {
   const crest = await loadImage(siteData.images.crest);
 
   if (mode === "pre" || !match.result) {
-    drawLogoPlate(context, crest, 300, 655, 190);
+    drawLogoPlate(context, crest, 300, 655, 190, 24);
 
     if (match.opponentLogo) {
       const opponentLogo = await loadImage(match.opponentLogo);
-      drawLogoPlate(context, opponentLogo, 780, 655, 190);
+      drawLogoPlate(context, opponentLogo, 780, 655, 190, 13);
     } else {
       drawOpponentPlaceholder(context, 780, 655, 190, opponentName(match));
     }
@@ -689,11 +693,11 @@ async function generateMatchCard(match: MatchData, mode: CardMode) {
       1088,
     );
   } else {
-    drawLogoPlate(context, crest, 300, 580, 170);
+    drawLogoPlate(context, crest, 300, 580, 170, 21);
 
     if (match.opponentLogo) {
       const opponentLogo = await loadImage(match.opponentLogo);
-      drawLogoPlate(context, opponentLogo, 780, 580, 170);
+      drawLogoPlate(context, opponentLogo, 780, 580, 170, 12);
     } else {
       drawOpponentPlaceholder(context, 780, 580, 170, opponentName(match));
     }
@@ -791,31 +795,33 @@ function drawSponsorFooter(
     return;
   }
 
-  const plateWidth = 220;
-  const plateHeight = 62;
-  const gap = 24;
   const visibleImages = images.slice(0, 3);
-  const totalWidth =
-    visibleImages.length * plateWidth + (visibleImages.length - 1) * gap;
-  let x = (1080 - totalWidth) / 2;
-  const y = 1232;
+  const areaX = 120;
+  const areaY = 1222;
+  const areaWidth = 840;
+  const areaHeight = 82;
 
-  for (const image of visibleImages) {
-    roundedRect(context, x, y, plateWidth, plateHeight, 14);
-    context.fillStyle = "rgba(255,255,255,0.94)";
-    context.fill();
+  // Uma única faixa translúcida mantém contraste sem transformar cada logo em uma caixa branca.
+  roundedRect(context, areaX, areaY, areaWidth, areaHeight, 18);
+  context.fillStyle = "rgba(255,255,255,0.86)";
+  context.fill();
+  context.strokeStyle = "rgba(255,255,255,0.22)";
+  context.lineWidth = 1;
+  context.stroke();
 
+  const slotWidth = areaWidth / visibleImages.length;
+
+  visibleImages.forEach((image, index) => {
+    const slotX = areaX + index * slotWidth;
     drawImageContain(
       context,
       image,
-      x + 18,
-      y + 10,
-      plateWidth - 36,
-      plateHeight - 20,
+      slotX + 18,
+      areaY + 8,
+      slotWidth - 36,
+      areaHeight - 16,
     );
-
-    x += plateWidth + gap;
-  }
+  });
 }
 
 function drawImageCover(
@@ -841,6 +847,7 @@ function drawLogoPlate(
   centerX: number,
   centerY: number,
   size: number,
+  padding = 20,
 ) {
   context.save();
   context.beginPath();
@@ -852,7 +859,6 @@ function drawLogoPlate(
   context.stroke();
   context.restore();
 
-  const padding = 28;
   drawImageContain(
     context,
     image,

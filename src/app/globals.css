@@ -226,12 +226,12 @@ a {
 
 .sponsor-group {
   display: flex;
-  gap: 1rem;
-  padding-right: 1rem;
+  gap: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 .sponsor-card {
-  width: min(78vw, 340px);
+  width: min(86vw, 390px);
   flex: 0 0 auto;
 }
 

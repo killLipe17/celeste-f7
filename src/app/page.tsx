@@ -599,21 +599,21 @@ function SponsorCard({
         target="_blank"
         rel="noreferrer"
         tabIndex={duplicate ? -1 : undefined}
-        className="group block p-5 outline-none focus-visible:ring-2 focus-visible:ring-club-blue sm:p-6"
+        className="group block p-4 outline-none focus-visible:ring-2 focus-visible:ring-club-blue sm:p-5"
         aria-label={`Visitar ${sponsor.name}`}
       >
-        <div className="flex h-36 items-center justify-center sm:h-40">
+        <div className="flex h-44 items-center justify-center sm:h-52">
           <Image
             src={sponsor.image}
             alt={`Logo ${sponsor.name}`}
             width={900}
             height={450}
-            sizes="(max-width: 640px) 72vw, 320px"
-            className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-[1.035]"
+            sizes="(max-width: 640px) 82vw, 380px"
+            className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-[1.05]"
           />
         </div>
 
-        <div className="mt-5 flex items-end justify-between gap-4 border-t border-club-deep/8 pt-4">
+        <div className="mt-4 flex items-end justify-between gap-4 border-t border-club-deep/8 pt-4">
           <div>
             <span className="text-[10px] font-black uppercase tracking-[0.16em] text-club-blue">
               Patrocinador
