@@ -670,7 +670,7 @@ async function generateMatchCard(match: MatchData, mode: CardMode) {
     context.fillStyle = sky;
     context.font = "900 48px Arial";
     context.fillText(
-      `${match.displayDate}  ${match.time.toUpperCase()}`,
+      `${match.displayDate} • ${match.time.toUpperCase()}`,
       540,
       930,
     );
@@ -715,8 +715,8 @@ async function generateMatchCard(match: MatchData, mode: CardMode) {
     );
 
     context.textAlign = "center";
-    context.fillStyle = muted;
-    context.font = "900 22px Arial";
+    context.fillStyle = sky;
+    context.font = "900 26px Arial";
     context.fillText(
       "RESULTADO FINAL",
       540,
