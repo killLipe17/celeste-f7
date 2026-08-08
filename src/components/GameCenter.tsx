@@ -768,17 +768,20 @@ async function generateMatchCard(match: MatchData, mode: CardMode) {
   context.fillStyle = "rgba(255,255,255,0.14)";
   context.fillRect(120, 1205, 840, 2);
 
-  const sponsorImages: HTMLImageElement[] = [];
+  const sponsorAssets: Array<{ name: string; image: HTMLImageElement }> = [];
 
   for (const sponsor of siteData.sponsors) {
     try {
-      sponsorImages.push(await loadImage(sponsor.image));
+      sponsorAssets.push({
+        name: sponsor.name,
+        image: await loadImage(sponsor.image),
+      });
     } catch {
       // Se uma logo não carregar, o card continua sendo gerado com as demais.
     }
   }
 
-  drawSponsorFooter(context, sponsorImages);
+  drawSponsorFooter(context, sponsorAssets);
 
   context.fillStyle = white;
   context.font = "900 19px Arial";
@@ -789,39 +792,70 @@ async function generateMatchCard(match: MatchData, mode: CardMode) {
 
 function drawSponsorFooter(
   context: CanvasRenderingContext2D,
-  images: HTMLImageElement[],
+  sponsors: Array<{ name: string; image: HTMLImageElement }>,
 ) {
-  if (images.length === 0) {
+  if (sponsors.length === 0) {
     return;
   }
 
-  const visibleImages = images.slice(0, 3);
+  const visibleSponsors = sponsors.slice(0, 3);
   const areaX = 120;
-  const areaY = 1222;
+  const areaY = 1220;
   const areaWidth = 840;
-  const areaHeight = 82;
+  const areaHeight = 84;
 
-  // Uma única faixa translúcida mantém contraste sem transformar cada logo em uma caixa branca.
+  // Faixa única em estilo glass: mantém os PNGs transparentes e integra os
+  // patrocinadores ao card sem criar três caixas brancas separadas.
+  context.save();
   roundedRect(context, areaX, areaY, areaWidth, areaHeight, 18);
-  context.fillStyle = "rgba(255,255,255,0.86)";
+  context.fillStyle = "rgba(255,255,255,0.18)";
   context.fill();
-  context.strokeStyle = "rgba(255,255,255,0.22)";
+  context.strokeStyle = "rgba(255,255,255,0.24)";
   context.lineWidth = 1;
   context.stroke();
+  context.restore();
 
-  const slotWidth = areaWidth / visibleImages.length;
+  const slotWidth = areaWidth / visibleSponsors.length;
 
-  visibleImages.forEach((image, index) => {
-    const slotX = areaX + index * slotWidth;
-    drawImageContain(
-      context,
-      image,
-      slotX + 18,
-      areaY + 8,
-      slotWidth - 36,
-      areaHeight - 16,
+  visibleSponsors.forEach((sponsor, index) => {
+    const slotCenterX = areaX + slotWidth * index + slotWidth / 2;
+    const sizing = sponsorFooterSizing(sponsor.name);
+
+    const scale = Math.min(
+      sizing.maxWidth / sponsor.image.width,
+      sizing.maxHeight / sponsor.image.height,
     );
+    const drawWidth = sponsor.image.width * scale;
+    const drawHeight = sponsor.image.height * scale;
+    const drawX = slotCenterX - drawWidth / 2;
+    const drawY = areaY + (areaHeight - drawHeight) / 2;
+
+    context.save();
+    // Um halo claro muito sutil ajuda marcas escuras, especialmente a Cacife,
+    // sem alterar as cores oficiais da logo.
+    context.shadowColor = "rgba(255,255,255,0.72)";
+    context.shadowBlur = sponsor.name.toLowerCase().includes("cacife") ? 9 : 5;
+    context.drawImage(sponsor.image, drawX, drawY, drawWidth, drawHeight);
+    context.restore();
   });
+}
+
+function sponsorFooterSizing(name: string) {
+  const normalized = name.toLowerCase();
+
+  if (normalized.includes("conlicitar")) {
+    return { maxWidth: 205, maxHeight: 58 };
+  }
+
+  if (normalized.includes("cacife")) {
+    return { maxWidth: 225, maxHeight: 54 };
+  }
+
+  if (normalized.includes("selva")) {
+    return { maxWidth: 145, maxHeight: 64 };
+  }
+
+  return { maxWidth: 190, maxHeight: 58 };
 }
 
 function drawImageCover(
