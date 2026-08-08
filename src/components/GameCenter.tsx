@@ -853,7 +853,7 @@ function sponsorFooterSizing(name: string) {
   const normalized = name.toLowerCase();
 
   if (normalized.includes("conlicitar")) {
-    return { maxWidth: 235, maxHeight: 60 };
+    return { maxWidth: 255, maxHeight: 70 };
   }
 
   if (normalized.includes("cacife")) {
@@ -861,7 +861,7 @@ function sponsorFooterSizing(name: string) {
   }
 
   if (normalized.includes("selva")) {
-    return { maxWidth: 180, maxHeight: 68 };
+    return { maxWidth: 215, maxHeight: 82 };
   }
 
   return { maxWidth: 190, maxHeight: 58 };
