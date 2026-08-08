@@ -16,16 +16,14 @@ const barlowCondensed = Barlow_Condensed({
 
 export const metadata: Metadata = {
   title: {
-    default: "Celeste F7 | Futebol Society",
+    default: "Celeste F7 | Futebol 7",
     template: "%s | Celeste F7",
   },
   description:
-    "Site oficial do Celeste F7, time de futebol society da Zona Leste de São Paulo, fundado em 2007.",
+    "Site oficial do Celeste F7, time de Futebol 7 de São Paulo, fundado em 2007.",
   keywords: [
     "Celeste F7",
-    "futebol society",
-    "futebol 7",
-    "Zona Leste",
+    "Futebol 7",
     "São Paulo",
     "CDC Rola Bola",
   ],

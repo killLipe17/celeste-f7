@@ -1,22 +1,14 @@
-ATUALIZAÇÃO — CARROSSEL DE PATROCINADORES
+Substitua os arquivos em D:\Projetos\celeste-f7\public\images\opponents\
 
-Copie as pastas "src" e "public" deste pacote para:
-D:\Projetos\celeste-f7
+Arquivos incluídos:
+- mud-fc.png
+- unidos-da-delpi.png
+- festival-r9.png
 
-Aceite substituir os arquivos existentes quando solicitado.
+Ajustes feitos:
+- fundo transparente
+- melhor recorte
+- logo com mais destaque visual
 
-Arquivos alterados:
-- src/app/page.tsx
-- src/app/globals.css
-- src/data/site.ts
-
-Novas imagens:
-- public/images/sponsors/conlicitar.png
-- public/images/sponsors/cacife-brand.png
-- public/images/sponsors/selva-pub.png
-
-Depois execute:
-npm run dev
-
-Se estiver tudo certo:
-npm run build
+Observação:
+A logo do MUD foi refinada a partir do print enviado. Se depois você conseguir uma imagem mais limpa da logo/escudo, eu consigo deixar ela ainda melhor.

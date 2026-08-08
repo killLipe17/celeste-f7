@@ -1,4 +1,5 @@
 export type CompetitionType = "Amistoso" | "Copa" | "Festival";
+export type PlayerPosition = "Goleiro" | "Fixo" | "Meia" | "Ala" | "Pivô";
 
 export type GoalScorer = {
   name: string;
@@ -19,6 +20,7 @@ export type MatchData = {
   time: string;
   venue: string;
   opponent: string | null;
+  opponentLogo: string | null;
   competition: {
     type: CompetitionType;
     name?: string;
@@ -28,6 +30,33 @@ export type MatchData = {
     frames: FrameResult[];
   } | null;
 };
+
+export type PlayerData = {
+  name: string;
+  position: PlayerPosition | null;
+  photo: string | null;
+};
+
+const roster = [
+  { name: "Fabio Lopes", position: "Ala", photo: null },
+  { name: "Dudu Ferreira", position: "Pivô", photo: null },
+  { name: "Bob", position: "Ala", photo: null },
+  { name: "Gustavo Teixeira", position: "Fixo", photo: null },
+  { name: "Jemerson Estevão", position: "Meia", photo: null },
+  { name: "Leonardo Leite", position: "Meia", photo: null },
+  { name: "Paulo Costa", position: "Goleiro", photo: null },
+  { name: "Rodrigo Gomes", position: "Fixo", photo: null },
+  { name: "Danillo Scalli", position: "Pivô", photo: null },
+  { name: "Alex Zahra", position: "Fixo", photo: null },
+  { name: "Hélio Júnior", position: "Fixo", photo: null },
+  { name: "Guilherme Alves", position: "Meia", photo: null },
+  { name: "Breno", position: "Meia", photo: null },
+  { name: "Gabriel Parreira", position: "Pivô", photo: null },
+  { name: "Guilherme Rodrigues", position: "Ala", photo: null },
+  { name: "Marcos Vinicius", position: "Ala", photo: null },
+  { name: "Pedro Gomes", position: "Ala", photo: null },
+  { name: "Fellipe Santos", position: "Pivô", photo: null },
+] satisfies PlayerData[];
 
 export const siteData = {
   team: {
@@ -41,26 +70,7 @@ export const siteData = {
 
   board: ["Danillo", "Hélio", "Bob", "Rodrigo", "Guilherme"],
 
-  roster: [
-    { name: "Fabio Lopes", status: "Mensalista", position: null },
-    { name: "Dudu Ferreira", status: "Mensalista", position: null },
-    { name: "Bob", status: "Mensalista", position: null },
-    { name: "Gustavo Teixeira", status: "Mensalista", position: null },
-    { name: "Jemerson", status: "Mensalista", position: null },
-    { name: "Leonardo Leite", status: "Mensalista", position: null },
-    { name: "Paulo Costa", status: "Mensalista", position: "Goleiro" },
-    { name: "Rodrigo Gomes", status: "Mensalista", position: null },
-    { name: "Danillo Scalli", status: "Mensalista", position: null },
-    { name: "Alex Zahra", status: "Mensalista", position: null },
-    { name: "Hélio Júnior", status: "Mensalista", position: null },
-    { name: "Guilherme Alves", status: "Mensalista", position: null },
-    { name: "Breno", status: "Mensalista", position: null },
-    { name: "Gabriel Parreira", status: "Mensalista", position: null },
-    { name: "Guilherme Rodrigue", status: "Mensalista", position: null },
-    { name: "Marcos Vinicius", status: "Mensalista", position: null },
-    { name: "Pedro Gomes", status: "Mensalista", position: null },
-    { name: "Fellipe Santos", status: "Mensalista", position: null },
-  ],
+  roster,
 
   schedule: {
     day: "Sábado",
@@ -75,11 +85,27 @@ export const siteData = {
       time: "10h",
       venue: "CDC Rola Bola",
       opponent: "MUD F.C",
+      opponentLogo: "/images/opponents/mud-fc.png",
       competition: {
         type: "Amistoso",
       },
       frameCount: 2,
-      result: null,
+      result: {
+        frames: [
+          {
+            label: "2º quadro",
+            celeste: 5,
+            opponent: 2,
+            scorers: [],
+          },
+          {
+            label: "1º quadro",
+            celeste: 7,
+            opponent: 1,
+            scorers: [],
+          },
+        ],
+      },
     },
     {
       id: "2026-08-15-gandaia",
@@ -88,6 +114,7 @@ export const siteData = {
       time: "10h",
       venue: "CDC Rola Bola",
       opponent: "GANDAIA F7",
+      opponentLogo: null,
       competition: {
         type: "Amistoso",
       },
@@ -101,6 +128,7 @@ export const siteData = {
       time: "10h",
       venue: "CDC Rola Bola",
       opponent: "FESTIVAL R9",
+      opponentLogo: "/images/opponents/festival-r9.png",
       competition: {
         type: "Festival",
         name: "Festival R9",
@@ -115,6 +143,7 @@ export const siteData = {
       time: "10h",
       venue: "CDC Rola Bola",
       opponent: "UNIDOS DA DELPI",
+      opponentLogo: "/images/opponents/unidos-da-delpi.png",
       competition: {
         type: "Amistoso",
       },
@@ -182,5 +211,16 @@ export const siteData = {
   images: {
     crest: "/images/escudo-celeste.png",
     teamPhoto: "/images/time-celeste.jpg",
+    matchCardPhotos: [
+      "/images/match-cards/celeste-01.jpg",
+      "/images/match-cards/celeste-02.jpg",
+      "/images/match-cards/celeste-03.jpg",
+      "/images/match-cards/celeste-04.jpg",
+      "/images/match-cards/celeste-05.jpg",
+      "/images/match-cards/celeste-06.jpg",
+      "/images/match-cards/celeste-07.jpg",
+      "/images/match-cards/celeste-08.jpg",
+      "/images/match-cards/celeste-09.jpg",
+    ],
   },
 } as const;

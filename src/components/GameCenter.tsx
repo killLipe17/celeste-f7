@@ -23,18 +23,24 @@ export default function GameCenter() {
 
   const nextMatch = useMemo(() => {
     if (!today) {
-      return siteData.matches[0] ?? null;
+      return siteData.matches.find((match) => match.result === null) ?? null;
     }
 
-    return siteData.matches.find((match) => match.date >= today) ?? null;
+    return (
+      siteData.matches.find(
+        (match) => match.result === null && match.date >= today,
+      ) ?? null
+    );
   }, [today]);
 
   const upcomingMatches = useMemo(() => {
     if (!today) {
-      return siteData.matches;
+      return siteData.matches.filter((match) => match.result === null);
     }
 
-    return siteData.matches.filter((match) => match.date >= today);
+    return siteData.matches.filter(
+      (match) => match.result === null && match.date >= today,
+    );
   }, [today]);
 
   const results = useMemo(
@@ -45,9 +51,10 @@ export default function GameCenter() {
     [],
   );
 
-  const nextStatus = nextMatch && today
-    ? getNextMatchStatus(nextMatch.date, today)
-    : "Próximo jogo";
+  const nextStatus =
+    nextMatch && today
+      ? getNextMatchStatus(nextMatch.date, today)
+      : "Próximo jogo";
 
   async function handleCard(match: MatchData, mode: CardMode, share: boolean) {
     try {
@@ -104,9 +111,6 @@ export default function GameCenter() {
           <h2 className="mt-3 font-display text-5xl font-black uppercase leading-[0.92] text-club-deep sm:text-6xl">
             Acompanhe o Celeste
           </h2>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-club-deep/60 sm:text-lg">
-            Próximos compromissos, competição e resultados oficiais do time a partir de 08/08/2026.
-          </p>
         </div>
 
         <div className="mt-10 grid gap-5 lg:grid-cols-[1.12fr_0.88fr]">
@@ -130,19 +134,12 @@ export default function GameCenter() {
                   </span>
                 </div>
 
-                <div className="relative z-10 my-12 flex flex-col items-center justify-center gap-8 sm:flex-row sm:gap-12">
-                  <div className="flex flex-1 flex-col items-center gap-3 text-center">
-                    <Image
-                      src={siteData.images.crest}
-                      alt="Escudo do Celeste F7"
-                      width={489}
-                      height={510}
-                      className="h-24 w-auto object-contain sm:h-28"
-                    />
-                    <strong className="font-display text-2xl font-black uppercase sm:text-3xl">
-                      Celeste F7
-                    </strong>
-                  </div>
+                <div className="relative z-10 my-12 grid items-center gap-6 sm:grid-cols-[1fr_auto_1fr] sm:gap-8">
+                  <TeamMark
+                    name="Celeste F7"
+                    logo={siteData.images.crest}
+                    alt="Escudo do Celeste F7"
+                  />
 
                   <div className="flex flex-col items-center">
                     <span className="font-display text-4xl font-black text-club-sky">
@@ -153,16 +150,12 @@ export default function GameCenter() {
                     </span>
                   </div>
 
-                  <div className="flex flex-1 flex-col items-center gap-3 text-center">
-                    <div className="w-full max-w-[250px] rounded-3xl border border-white/15 bg-white/5 px-5 py-8">
-                      <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/45">
-                        Adversário
-                      </span>
-                      <strong className="mt-2 block font-display text-3xl font-black uppercase leading-none text-white sm:text-4xl">
-                        {opponentName(nextMatch)}
-                      </strong>
-                    </div>
-                  </div>
+                  <TeamMark
+                    name={opponentName(nextMatch)}
+                    logo={nextMatch.opponentLogo}
+                    alt={`Escudo de ${opponentName(nextMatch)}`}
+                    opponent
+                  />
                 </div>
 
                 <div className="relative z-10 grid gap-3 border-t border-white/10 pt-5 text-sm text-white/65 sm:grid-cols-3">
@@ -199,9 +192,6 @@ export default function GameCenter() {
                 <h3 className="mt-7 font-display text-5xl font-black uppercase">
                   Próximo jogo a confirmar
                 </h3>
-                <p className="mt-4 max-w-md text-white/60">
-                  Assim que uma nova data for definida, o próximo confronto aparecerá automaticamente aqui.
-                </p>
               </div>
             )}
           </article>
@@ -231,10 +221,6 @@ export default function GameCenter() {
                 </div>
               )}
             </div>
-
-            <p className="text-sm leading-6 text-club-deep/60">
-              Quando o adversário ainda não estiver definido, o site exibirá automaticamente “Adversário a confirmar”.
-            </p>
           </article>
         </div>
 
@@ -248,19 +234,13 @@ export default function GameCenter() {
         ) : null}
 
         <div className="mt-16">
-          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-club-blue">
-                Histórico oficial
-              </p>
-              <h3 className="mt-2 font-display text-4xl font-black uppercase leading-none sm:text-5xl">
-                Últimos resultados
-              </h3>
-            </div>
-
-            <span className="text-sm font-semibold text-club-deep/45">
-              Registros a partir de 08/08/2026
-            </span>
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-club-blue">
+              Histórico oficial
+            </p>
+            <h3 className="mt-2 font-display text-4xl font-black uppercase leading-none sm:text-5xl">
+              Últimos resultados
+            </h3>
           </div>
 
           {results.length > 0 ? (
@@ -281,25 +261,79 @@ export default function GameCenter() {
   );
 }
 
+function TeamMark({
+  name,
+  logo,
+  alt,
+  opponent = false,
+}: {
+  name: string;
+  logo: string | null;
+  alt: string;
+  opponent?: boolean;
+}) {
+  return (
+    <div className="flex min-w-0 flex-col items-center gap-3 text-center">
+      <div className="flex h-28 w-28 items-center justify-center rounded-full border border-white/15 bg-white/7 p-4 sm:h-32 sm:w-32">
+        {logo ? (
+          <Image
+            src={logo}
+            alt={alt}
+            width={489}
+            height={510}
+            className="h-full w-full object-contain"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center rounded-full border border-dashed border-white/25 text-white/35">
+            <ShieldIcon />
+          </div>
+        )}
+      </div>
+
+      <strong
+        className={`max-w-[220px] font-display font-black uppercase leading-none ${
+          opponent ? "text-2xl sm:text-3xl" : "text-2xl sm:text-3xl"
+        }`}
+      >
+        {name}
+      </strong>
+    </div>
+  );
+}
+
 function CalendarRow({ match }: { match: MatchData }) {
   return (
     <div className="rounded-2xl border border-club-deep/8 bg-white px-4 py-4">
-      <div className="flex items-start justify-between gap-4">
-        <div>
+      <div className="flex items-center gap-4">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-club-deep/8 bg-[#f3f8fc] p-2 text-club-blue/35">
+          {match.opponentLogo ? (
+            <Image
+              src={match.opponentLogo}
+              alt={`Escudo de ${opponentName(match)}`}
+              width={64}
+              height={64}
+              className="h-full w-full object-contain"
+            />
+          ) : (
+            <ShieldIcon />
+          )}
+        </div>
+
+        <div className="min-w-0 flex-1">
           <span className="text-[11px] font-black uppercase tracking-[0.14em] text-club-blue">
             {match.displayDate} • {competitionLabel(match)}
           </span>
-          <strong className="mt-1 block text-sm uppercase tracking-[0.06em] text-club-deep sm:text-base">
+          <strong className="mt-1 block truncate text-sm uppercase tracking-[0.06em] text-club-deep sm:text-base">
             vs {opponentName(match)}
           </strong>
         </div>
 
-        <span className="rounded-full bg-club-deep/5 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-club-deep/60">
+        <span className="shrink-0 rounded-full bg-club-deep/5 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-club-deep/60">
           {match.time}
         </span>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-2">
+      <div className="mt-3 flex flex-wrap gap-2 pl-16">
         <span className="rounded-full bg-club-sky/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-club-blue">
           {match.frameCount === 1 ? "1 quadro" : "2 quadros"}
         </span>
@@ -333,9 +367,19 @@ function ResultCard({
           </span>
         </div>
 
-        <h4 className="mt-5 font-display text-3xl font-black uppercase sm:text-4xl">
-          Celeste F7 <span className="text-club-sky">×</span> {opponentName(match)}
-        </h4>
+        <div className="mt-6 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+          <MiniTeamMark
+            name="Celeste F7"
+            logo={siteData.images.crest}
+            alt="Escudo do Celeste F7"
+          />
+          <span className="font-display text-2xl font-black text-club-sky">×</span>
+          <MiniTeamMark
+            name={opponentName(match)}
+            logo={match.opponentLogo}
+            alt={`Escudo de ${opponentName(match)}`}
+          />
+        </div>
       </div>
 
       <div className="space-y-3 p-4 sm:p-5">
@@ -356,7 +400,9 @@ function ResultCard({
                 </div>
 
                 <strong className="font-display text-4xl font-black text-white">
-                  {frame.celeste} <span className="text-club-sky">×</span> {frame.opponent}
+                  {frame.celeste}{" "}
+                  <span className="text-club-sky">×</span>{" "}
+                  {frame.opponent}
                 </strong>
               </div>
 
@@ -401,6 +447,37 @@ function ResultCard({
   );
 }
 
+function MiniTeamMark({
+  name,
+  logo,
+  alt,
+}: {
+  name: string;
+  logo: string | null;
+  alt: string;
+}) {
+  return (
+    <div className="min-w-0 text-center">
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/7 p-2 text-white/30">
+        {logo ? (
+          <Image
+            src={logo}
+            alt={alt}
+            width={80}
+            height={80}
+            className="h-full w-full object-contain"
+          />
+        ) : (
+          <ShieldIcon />
+        )}
+      </div>
+      <strong className="mt-2 block truncate text-xs font-black uppercase tracking-[0.06em] text-white/75">
+        {name}
+      </strong>
+    </div>
+  );
+}
+
 function InfoLine({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between gap-3 sm:block sm:text-center">
@@ -422,8 +499,12 @@ function ResultDot({ tone }: { tone: ResultTone }) {
   return (
     <span
       className={`h-3 w-3 shrink-0 rounded-full ${classes[tone]}`}
-      aria-label={tone === "win" ? "Vitória" : tone === "draw" ? "Empate" : "Derrota"}
-      title={tone === "win" ? "Vitória" : tone === "draw" ? "Empate" : "Derrota"}
+      aria-label={
+        tone === "win" ? "Vitória" : tone === "draw" ? "Empate" : "Derrota"
+      }
+      title={
+        tone === "win" ? "Vitória" : tone === "draw" ? "Empate" : "Derrota"
+      }
     />
   );
 }
@@ -503,160 +584,359 @@ async function generateMatchCard(match: MatchData, mode: CardMode) {
     throw new Error("Canvas não disponível.");
   }
 
-  const navy = "#031126";
-  const blue = "#006fbd";
+  const white = "#ffffff";
   const sky = "#20b9ee";
-  const white = "#f8fbff";
-  const muted = "#93a8bd";
+  const navy = "#031126";
+  const muted = "#c9d7e5";
 
-  const gradient = context.createLinearGradient(0, 0, 1080, 1350);
-  gradient.addColorStop(0, navy);
-  gradient.addColorStop(0.55, "#071c3f");
-  gradient.addColorStop(1, "#052956");
-  context.fillStyle = gradient;
+  const photoPaths = siteData.images.matchCardPhotos;
+  const photoPath =
+    photoPaths[Math.floor(Math.random() * photoPaths.length)] ??
+    siteData.images.teamPhoto;
+
+  const background = await loadImage(photoPath);
+  drawImageCover(context, background, 0, 0, canvas.width, canvas.height);
+
+  const topShade = context.createLinearGradient(0, 0, 0, 1350);
+  topShade.addColorStop(0, "rgba(3,17,38,0.22)");
+  topShade.addColorStop(0.42, "rgba(3,17,38,0.12)");
+  topShade.addColorStop(0.68, "rgba(3,17,38,0.72)");
+  topShade.addColorStop(1, "rgba(3,17,38,0.98)");
+  context.fillStyle = topShade;
   context.fillRect(0, 0, 1080, 1350);
 
-  context.save();
-  context.globalAlpha = 0.13;
-  context.fillStyle = blue;
-  context.beginPath();
-  context.moveTo(610, 0);
-  context.lineTo(830, 0);
-  context.lineTo(360, 1350);
-  context.lineTo(140, 1350);
-  context.closePath();
-  context.fill();
-
-  context.fillStyle = sky;
-  context.globalAlpha = 0.08;
-  context.beginPath();
-  context.moveTo(860, 0);
-  context.lineTo(1080, 0);
-  context.lineTo(650, 1350);
-  context.lineTo(430, 1350);
-  context.closePath();
-  context.fill();
-  context.restore();
-
-  const crest = await loadImage(siteData.images.crest);
-  const crestWidth = 190;
-  const crestHeight = (crest.height / crest.width) * crestWidth;
-  context.drawImage(crest, 445, 72, crestWidth, crestHeight);
+  const sideShade = context.createLinearGradient(0, 0, 1080, 0);
+  sideShade.addColorStop(0, "rgba(3,17,38,0.32)");
+  sideShade.addColorStop(0.5, "rgba(3,17,38,0.04)");
+  sideShade.addColorStop(1, "rgba(3,17,38,0.32)");
+  context.fillStyle = sideShade;
+  context.fillRect(0, 0, 1080, 1350);
 
   context.textAlign = "center";
+
+  context.fillStyle = "rgba(255,255,255,0.06)";
+  context.strokeStyle = "rgba(255,255,255,0.16)";
+  context.lineWidth = 2;
+  context.font = "900 190px Arial";
+  context.strokeText(mode === "post" ? "RESULTADO" : "GAME DAY", 540, 475);
+
   context.fillStyle = sky;
-  context.font = "900 30px Arial";
-  context.fillText(
-    mode === "post" ? "RESULTADO" : "PRÓXIMO JOGO",
-    540,
-    330,
-  );
+  context.font = "900 24px Arial";
+  context.fillText(competitionLabel(match).toUpperCase(), 540, 92);
 
   context.fillStyle = white;
-  context.font = "900 58px Arial";
-  context.fillText("CELESTE F7", 540, 400);
+  context.font = "900 42px Arial";
+  context.fillText("CELESTE F7", 540, 145);
 
   context.fillStyle = muted;
-  context.font = "700 24px Arial";
-  context.fillText(competitionLabel(match).toUpperCase(), 540, 452);
+  context.font = "700 18px Arial";
+  context.fillText("FUTEBOL 7 • SÃO PAULO", 540, 180);
 
-  context.fillStyle = white;
-  context.font = "900 36px Arial";
-  context.fillText(`${match.displayDate} • SÁBADO • ${match.time}`, 540, 520);
-
-  context.strokeStyle = "rgba(255,255,255,0.14)";
-  context.lineWidth = 2;
-  context.beginPath();
-  context.moveTo(130, 560);
-  context.lineTo(950, 560);
-  context.stroke();
+  const crest = await loadImage(siteData.images.crest);
 
   if (mode === "pre" || !match.result) {
-    context.fillStyle = white;
-    drawFittedText(context, "CELESTE F7", 540, 700, 78, 360);
+    drawLogoPlate(context, crest, 300, 655, 190);
 
-    context.fillStyle = sky;
+    if (match.opponentLogo) {
+      const opponentLogo = await loadImage(match.opponentLogo);
+      drawLogoPlate(context, opponentLogo, 780, 655, 190);
+    } else {
+      drawOpponentPlaceholder(context, 780, 655, 190, opponentName(match));
+    }
+
+    context.fillStyle = white;
     context.font = "900 48px Arial";
-    context.fillText("VS", 540, 790);
+    context.fillText("VS", 540, 680);
 
     context.fillStyle = white;
+    drawFittedText(context, "CELESTE F7", 300, 805, 38, 330);
     drawFittedText(
       context,
       opponentName(match).toUpperCase(),
-      540,
-      900,
-      72,
       780,
+      805,
+      38,
+      330,
     );
 
-    context.fillStyle = muted;
-    context.font = "700 26px Arial";
-    context.fillText(match.venue.toUpperCase(), 540, 1035);
-
     context.fillStyle = sky;
+    context.font = "900 48px Arial";
+    context.fillText(
+      `${match.displayDate}  ${match.time.toUpperCase()}`,
+      540,
+      930,
+    );
+
+    context.fillStyle = white;
+    context.font = "900 28px Arial";
+    context.fillText("SÁBADO", 540, 980);
+
+    context.fillStyle = muted;
+    drawFittedText(
+      context,
+      match.venue.toUpperCase(),
+      540,
+      1035,
+      28,
+      820,
+    );
+
+    context.fillStyle = white;
     context.font = "900 22px Arial";
     context.fillText(
       match.frameCount === 1 ? "1 QUADRO" : "2º QUADRO + 1º QUADRO",
       540,
-      1090,
+      1088,
     );
   } else {
+    drawLogoPlate(context, crest, 300, 580, 170);
+
+    if (match.opponentLogo) {
+      const opponentLogo = await loadImage(match.opponentLogo);
+      drawLogoPlate(context, opponentLogo, 780, 580, 170);
+    } else {
+      drawOpponentPlaceholder(context, 780, 580, 170, opponentName(match));
+    }
+
+    context.fillStyle = sky;
+    context.font = "900 42px Arial";
+    context.fillText("×", 540, 605);
+
     context.fillStyle = white;
+    drawFittedText(context, "CELESTE F7", 300, 710, 34, 320);
     drawFittedText(
       context,
-      `CELESTE F7 × ${opponentName(match).toUpperCase()}`,
-      540,
-      640,
-      54,
-      850,
+      opponentName(match).toUpperCase(),
+      780,
+      710,
+      34,
+      320,
     );
 
-    let y = 735;
+    let y = match.result.frames.length === 1 ? 880 : 820;
 
     for (const frame of match.result.frames) {
-      context.fillStyle = "rgba(255,255,255,0.06)";
-      context.fillRect(120, y - 55, 840, 180);
+      roundedRect(context, 150, y - 58, 780, 150, 26);
+      context.fillStyle = "rgba(3,17,38,0.78)";
+      context.fill();
 
       context.textAlign = "left";
       context.fillStyle = muted;
-      context.font = "900 24px Arial";
-      context.fillText(frame.label.toUpperCase(), 155, y);
+      context.font = "900 22px Arial";
+      context.fillText(frame.label.toUpperCase(), 190, y - 6);
 
       context.textAlign = "right";
       context.fillStyle = white;
-      context.font = "900 60px Arial";
-      context.fillText(`${frame.celeste} × ${frame.opponent}`, 925, y + 10);
+      context.font = "900 66px Arial";
+      context.fillText(
+        `${frame.celeste} × ${frame.opponent}`,
+        890,
+        y + 18,
+      );
 
-      context.textAlign = "left";
-      context.fillStyle = white;
-      context.font = "700 22px Arial";
+      if (frame.scorers.length > 0) {
+        context.textAlign = "left";
+        context.fillStyle = white;
+        context.font = "700 18px Arial";
+        const scorerText = frame.scorers
+          .map(
+            (scorer) =>
+              `⚽ ${scorer.name}${scorer.goals > 1 ? ` ×${scorer.goals}` : ""}`,
+          )
+          .join("   ");
+        drawWrappedText(context, scorerText, 190, y + 56, 660, 24, 2);
+      }
 
-      const scorerText =
-        frame.scorers.length > 0
-          ? frame.scorers
-              .map((scorer) => `⚽ ${scorer.name}${scorer.goals > 1 ? ` ×${scorer.goals}` : ""}`)
-              .join("   ")
-          : "Gols do Celeste: —";
-
-      drawWrappedText(context, scorerText, 155, y + 58, 760, 30, 2);
-
-      y += 215;
+      y += 175;
     }
+
+    context.textAlign = "center";
+    context.fillStyle = sky;
+    context.font = "900 28px Arial";
+    context.fillText(
+      `${match.displayDate} • ${match.venue.toUpperCase()}`,
+      540,
+      1150,
+    );
   }
 
   context.textAlign = "center";
-  context.fillStyle = "rgba(255,255,255,0.12)";
-  context.fillRect(120, 1215, 840, 2);
+  context.fillStyle = "rgba(255,255,255,0.14)";
+  context.fillRect(120, 1205, 840, 2);
+
+  const sponsorImages: HTMLImageElement[] = [];
+
+  for (const sponsor of siteData.sponsors) {
+    try {
+      sponsorImages.push(await loadImage(sponsor.image));
+    } catch {
+      // Se uma logo não carregar, o card continua sendo gerado com as demais.
+    }
+  }
+
+  drawSponsorFooter(context, sponsorImages);
 
   context.fillStyle = white;
-  context.font = "900 24px Arial";
-  context.fillText("@CELESTEF7", 540, 1270);
-
-  context.fillStyle = muted;
-  context.font = "700 18px Arial";
-  context.fillText("FUTEBOL SOCIETY • SÃO PAULO", 540, 1310);
+  context.font = "900 19px Arial";
+  context.fillText("@CELESTEF7  •  FUTEBOL 7", 540, 1322);
 
   return await canvasToBlob(canvas);
+}
+
+function drawSponsorFooter(
+  context: CanvasRenderingContext2D,
+  images: HTMLImageElement[],
+) {
+  if (images.length === 0) {
+    return;
+  }
+
+  const plateWidth = 220;
+  const plateHeight = 62;
+  const gap = 24;
+  const visibleImages = images.slice(0, 3);
+  const totalWidth =
+    visibleImages.length * plateWidth + (visibleImages.length - 1) * gap;
+  let x = (1080 - totalWidth) / 2;
+  const y = 1232;
+
+  for (const image of visibleImages) {
+    roundedRect(context, x, y, plateWidth, plateHeight, 14);
+    context.fillStyle = "rgba(255,255,255,0.94)";
+    context.fill();
+
+    drawImageContain(
+      context,
+      image,
+      x + 18,
+      y + 10,
+      plateWidth - 36,
+      plateHeight - 20,
+    );
+
+    x += plateWidth + gap;
+  }
+}
+
+function drawImageCover(
+  context: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+) {
+  const scale = Math.max(width / image.width, height / image.height);
+  const drawWidth = image.width * scale;
+  const drawHeight = image.height * scale;
+  const drawX = x + (width - drawWidth) / 2;
+  const drawY = y + (height - drawHeight) / 2;
+
+  context.drawImage(image, drawX, drawY, drawWidth, drawHeight);
+}
+
+function drawLogoPlate(
+  context: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  centerX: number,
+  centerY: number,
+  size: number,
+) {
+  context.save();
+  context.beginPath();
+  context.arc(centerX, centerY, size / 2, 0, Math.PI * 2);
+  context.fillStyle = "rgba(255,255,255,0.94)";
+  context.fill();
+  context.strokeStyle = "rgba(255,255,255,0.45)";
+  context.lineWidth = 3;
+  context.stroke();
+  context.restore();
+
+  const padding = 28;
+  drawImageContain(
+    context,
+    image,
+    centerX - size / 2 + padding,
+    centerY - size / 2 + padding,
+    size - padding * 2,
+    size - padding * 2,
+  );
+}
+
+function drawOpponentPlaceholder(
+  context: CanvasRenderingContext2D,
+  centerX: number,
+  centerY: number,
+  size: number,
+  name: string,
+) {
+  context.save();
+  context.beginPath();
+  context.arc(centerX, centerY, size / 2, 0, Math.PI * 2);
+  context.fillStyle = "rgba(255,255,255,0.92)";
+  context.fill();
+  context.strokeStyle = "rgba(255,255,255,0.45)";
+  context.lineWidth = 3;
+  context.stroke();
+
+  context.fillStyle = "#071c3f";
+  context.textAlign = "center";
+  context.font = "900 42px Arial";
+  context.fillText(getInitials(name), centerX, centerY + 14);
+  context.restore();
+}
+
+function drawImageContain(
+  context: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+) {
+  const scale = Math.min(width / image.width, height / image.height);
+  const drawWidth = image.width * scale;
+  const drawHeight = image.height * scale;
+  const drawX = x + (width - drawWidth) / 2;
+  const drawY = y + (height - drawHeight) / 2;
+
+  context.drawImage(image, drawX, drawY, drawWidth, drawHeight);
+}
+
+function roundedRect(
+  context: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  radius: number,
+) {
+  const r = Math.min(radius, width / 2, height / 2);
+
+  context.beginPath();
+  context.moveTo(x + r, y);
+  context.arcTo(x + width, y, x + width, y + height, r);
+  context.arcTo(x + width, y + height, x, y + height, r);
+  context.arcTo(x, y + height, x, y, r);
+  context.arcTo(x, y, x + width, y, r);
+  context.closePath();
+}
+
+function getInitials(name: string) {
+  if (name === "Adversário a confirmar") {
+    return "?";
+  }
+
+  const parts = name
+    .replace(/\./g, "")
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (parts.length === 1) {
+    return parts[0].slice(0, 3).toUpperCase();
+  }
+
+  return `${parts[0][0] ?? ""}${parts[parts.length - 1][0] ?? ""}`.toUpperCase();
 }
 
 function drawFittedText(
@@ -669,7 +949,7 @@ function drawFittedText(
 ) {
   let size = startSize;
 
-  while (size > 30) {
+  while (size > 20) {
     context.font = `900 ${size}px Arial`;
     if (context.measureText(text).width <= maxWidth) {
       break;
@@ -719,8 +999,10 @@ function drawWrappedText(
 function loadImage(src: string) {
   return new Promise<HTMLImageElement>((resolve, reject) => {
     const image = new window.Image();
+    image.decoding = "async";
     image.onload = () => resolve(image);
-    image.onerror = () => reject(new Error(`Não foi possível carregar ${src}.`));
+    image.onerror = () =>
+      reject(new Error(`Não foi possível carregar ${src}.`));
     image.src = src;
   });
 }
@@ -774,7 +1056,11 @@ function DownloadIcon() {
       stroke="currentColor"
       strokeWidth="2"
     >
-      <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -797,3 +1083,20 @@ function ShareIcon() {
   );
 }
 
+function ShieldIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-10 w-10"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+    >
+      <path
+        d="M12 3 5.5 5.5v5.7c0 4.6 2.5 7.7 6.5 9.8 4-2.1 6.5-5.2 6.5-9.8V5.5L12 3Z"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
