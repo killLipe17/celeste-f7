@@ -714,19 +714,28 @@ async function generateMatchCard(match: MatchData, mode: CardMode) {
       320,
     );
 
-    let y = match.result.frames.length === 1 ? 900 : 830;
+    context.textAlign = "center";
+    context.fillStyle = muted;
+    context.font = "900 22px Arial";
+    context.fillText(
+      "RESULTADO FINAL",
+      540,
+      match.result.frames.length === 1 ? 810 : 770,
+    );
+
+    let y = match.result.frames.length === 1 ? 890 : 835;
 
     for (const frame of match.result.frames) {
-      roundedRect(context, 230, y - 68, 620, 136, 26);
+      roundedRect(context, 245, y - 56, 590, 112, 24);
       context.fillStyle = "rgba(3,17,38,0.82)";
       context.fill();
 
       context.textAlign = "center";
       context.fillStyle = white;
-      context.font = "900 76px Arial";
-      context.fillText(`${frame.celeste} × ${frame.opponent}`, 540, y + 25);
+      context.font = "900 72px Arial";
+      context.fillText(`${frame.celeste} × ${frame.opponent}`, 540, y + 24);
 
-      y += 160;
+      y += 132;
     }
 
     context.textAlign = "center";
@@ -735,7 +744,7 @@ async function generateMatchCard(match: MatchData, mode: CardMode) {
     context.fillText(
       `${match.displayDate} • ${match.venue.toUpperCase()}`,
       540,
-      1150,
+      1125,
     );
   }
 
