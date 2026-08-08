@@ -525,6 +525,10 @@ function competitionLabel(match: MatchData) {
   return match.competition.type;
 }
 
+function cardCompetitionLabel(match: MatchData) {
+  return match.competition.name?.trim() || match.competition.type;
+}
+
 function resultTone(celeste: number, opponent: number): ResultTone {
   if (celeste > opponent) return "win";
   if (celeste < opponent) return "loss";
@@ -618,23 +622,23 @@ async function generateMatchCard(match: MatchData, mode: CardMode) {
 
   context.textAlign = "center";
 
-  context.fillStyle = "rgba(255,255,255,0.06)";
-  context.strokeStyle = "rgba(255,255,255,0.16)";
-  context.lineWidth = 2;
-  context.font = "900 190px Arial";
-  context.strokeText(mode === "post" ? "RESULTADO" : "GAME DAY", 540, 475);
-
   context.fillStyle = sky;
-  context.font = "900 24px Arial";
-  context.fillText(competitionLabel(match).toUpperCase(), 540, 92);
+  context.font = "900 56px Arial";
+  context.fillText("MATCH DAY", 540, 112);
 
   context.fillStyle = white;
-  context.font = "900 42px Arial";
-  context.fillText("CELESTE F7", 540, 145);
+  drawFittedText(
+    context,
+    cardCompetitionLabel(match).toUpperCase(),
+    540,
+    162,
+    36,
+    820,
+  );
 
   context.fillStyle = muted;
   context.font = "700 18px Arial";
-  context.fillText("FUTEBOL 7 • SÃO PAULO", 540, 180);
+  context.fillText("FUTEBOL 7 • SÃO PAULO", 540, 198);
 
   const crest = await loadImage(siteData.images.crest);
 
@@ -685,13 +689,6 @@ async function generateMatchCard(match: MatchData, mode: CardMode) {
       820,
     );
 
-    context.fillStyle = white;
-    context.font = "900 22px Arial";
-    context.fillText(
-      match.frameCount === 1 ? "1 QUADRO" : "2º QUADRO + 1º QUADRO",
-      540,
-      1088,
-    );
   } else {
     drawLogoPlate(context, crest, 300, 580, 170, 21);
 
@@ -717,41 +714,19 @@ async function generateMatchCard(match: MatchData, mode: CardMode) {
       320,
     );
 
-    let y = match.result.frames.length === 1 ? 880 : 820;
+    let y = match.result.frames.length === 1 ? 900 : 830;
 
     for (const frame of match.result.frames) {
-      roundedRect(context, 150, y - 58, 780, 150, 26);
-      context.fillStyle = "rgba(3,17,38,0.78)";
+      roundedRect(context, 230, y - 68, 620, 136, 26);
+      context.fillStyle = "rgba(3,17,38,0.82)";
       context.fill();
 
-      context.textAlign = "left";
-      context.fillStyle = muted;
-      context.font = "900 22px Arial";
-      context.fillText(frame.label.toUpperCase(), 190, y - 6);
-
-      context.textAlign = "right";
+      context.textAlign = "center";
       context.fillStyle = white;
-      context.font = "900 66px Arial";
-      context.fillText(
-        `${frame.celeste} × ${frame.opponent}`,
-        890,
-        y + 18,
-      );
+      context.font = "900 76px Arial";
+      context.fillText(`${frame.celeste} × ${frame.opponent}`, 540, y + 25);
 
-      if (frame.scorers.length > 0) {
-        context.textAlign = "left";
-        context.fillStyle = white;
-        context.font = "700 18px Arial";
-        const scorerText = frame.scorers
-          .map(
-            (scorer) =>
-              `⚽ ${scorer.name}${scorer.goals > 1 ? ` ×${scorer.goals}` : ""}`,
-          )
-          .join("   ");
-        drawWrappedText(context, scorerText, 190, y + 56, 660, 24, 2);
-      }
-
-      y += 175;
+      y += 160;
     }
 
     context.textAlign = "center";
@@ -804,13 +779,12 @@ function drawSponsorFooter(
   const areaWidth = 840;
   const areaHeight = 84;
 
-  // Faixa única em estilo glass: mantém os PNGs transparentes e integra os
-  // patrocinadores ao card sem criar três caixas brancas separadas.
+  // Fundo branco devolve contraste total às três marcas em qualquer foto.
   context.save();
   roundedRect(context, areaX, areaY, areaWidth, areaHeight, 18);
-  context.fillStyle = "rgba(255,255,255,0.10)";
+  context.fillStyle = "rgba(255,255,255,0.96)";
   context.fill();
-  context.strokeStyle = "rgba(255,255,255,0.18)";
+  context.strokeStyle = "rgba(255,255,255,0.72)";
   context.lineWidth = 1;
   context.stroke();
   context.restore();
@@ -831,19 +805,8 @@ function drawSponsorFooter(
     const drawY = areaY + (areaHeight - drawHeight) / 2;
 
     context.save();
-
-    const normalized = sponsor.name.toLowerCase();
-
-    // A Cacife é uma marca escura; um halo mínimo preserva a leitura sem
-    // criar o efeito de brilho branco forte das versões anteriores.
-    if (normalized.includes("cacife")) {
-      context.shadowColor = "rgba(255,255,255,0.28)";
-      context.shadowBlur = 4;
-    } else {
-      context.shadowColor = "transparent";
-      context.shadowBlur = 0;
-    }
-
+    context.shadowColor = "transparent";
+    context.shadowBlur = 0;
     context.drawImage(sponsor.image, drawX, drawY, drawWidth, drawHeight);
     context.restore();
   });

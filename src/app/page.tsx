@@ -355,9 +355,6 @@ export default function Home() {
                             {player.name}
                           </h4>
 
-                          <span className="mt-4 inline-flex rounded-full bg-club-blue px-3 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-white">
-                            {player.position}
-                          </span>
                         </div>
                       </article>
                     ))}
@@ -784,4 +781,5 @@ function DirectorsIcon() {
     </svg>
   );
 }
+
 
