@@ -808,9 +808,9 @@ function drawSponsorFooter(
   // patrocinadores ao card sem criar três caixas brancas separadas.
   context.save();
   roundedRect(context, areaX, areaY, areaWidth, areaHeight, 18);
-  context.fillStyle = "rgba(255,255,255,0.18)";
+  context.fillStyle = "rgba(255,255,255,0.10)";
   context.fill();
-  context.strokeStyle = "rgba(255,255,255,0.24)";
+  context.strokeStyle = "rgba(255,255,255,0.18)";
   context.lineWidth = 1;
   context.stroke();
   context.restore();
@@ -831,10 +831,19 @@ function drawSponsorFooter(
     const drawY = areaY + (areaHeight - drawHeight) / 2;
 
     context.save();
-    // Um halo claro muito sutil ajuda marcas escuras, especialmente a Cacife,
-    // sem alterar as cores oficiais da logo.
-    context.shadowColor = "rgba(255,255,255,0.72)";
-    context.shadowBlur = sponsor.name.toLowerCase().includes("cacife") ? 9 : 5;
+
+    const normalized = sponsor.name.toLowerCase();
+
+    // A Cacife é uma marca escura; um halo mínimo preserva a leitura sem
+    // criar o efeito de brilho branco forte das versões anteriores.
+    if (normalized.includes("cacife")) {
+      context.shadowColor = "rgba(255,255,255,0.28)";
+      context.shadowBlur = 4;
+    } else {
+      context.shadowColor = "transparent";
+      context.shadowBlur = 0;
+    }
+
     context.drawImage(sponsor.image, drawX, drawY, drawWidth, drawHeight);
     context.restore();
   });
@@ -844,15 +853,15 @@ function sponsorFooterSizing(name: string) {
   const normalized = name.toLowerCase();
 
   if (normalized.includes("conlicitar")) {
-    return { maxWidth: 205, maxHeight: 58 };
+    return { maxWidth: 235, maxHeight: 60 };
   }
 
   if (normalized.includes("cacife")) {
-    return { maxWidth: 225, maxHeight: 54 };
+    return { maxWidth: 198, maxHeight: 48 };
   }
 
   if (normalized.includes("selva")) {
-    return { maxWidth: 145, maxHeight: 64 };
+    return { maxWidth: 180, maxHeight: 68 };
   }
 
   return { maxWidth: 190, maxHeight: 58 };

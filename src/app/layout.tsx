@@ -28,8 +28,9 @@ export const metadata: Metadata = {
     "CDC Rola Bola",
   ],
   icons: {
-    icon: "/images/escudo-celeste.png",
-    apple: "/images/escudo-celeste.png",
+    icon: "/icon.png",
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
   },
 };
 
