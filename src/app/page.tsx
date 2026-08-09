@@ -323,11 +323,11 @@ export default function Home() {
                     <div className="h-px flex-1 bg-club-deep/10" />
                   </div>
 
-                  <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
                     {players.map((player) => (
                       <article
                         key={player.name}
-                        className="player-card group overflow-hidden rounded-3xl border border-club-deep/10 bg-white shadow-[0_12px_35px_rgba(3,17,38,0.06)] transition hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(3,17,38,0.1)]"
+                        className="player-card group overflow-hidden rounded-2xl border border-club-deep/10 bg-white shadow-[0_12px_35px_rgba(3,17,38,0.06)] transition hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(3,17,38,0.1)] sm:rounded-3xl"
                       >
                         <div className="player-photo-frame relative aspect-[3/4] overflow-hidden bg-[linear-gradient(145deg,#dff6ff,#f7fbfe)]">
                           {player.photo ? (
@@ -335,23 +335,23 @@ export default function Home() {
                               src={player.photo}
                               alt={`Foto de ${player.name}`}
                               fill
-                              sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 280px"
+                              sizes="(max-width: 640px) 44vw, (max-width: 1024px) 45vw, 280px"
                               className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.025]"
                             />
                           ) : (
-                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-club-blue/45">
-                              <span className="flex h-16 w-16 items-center justify-center rounded-full border border-club-blue/10 bg-white/70">
+                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-club-blue/45 sm:gap-3">
+                              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-club-blue/10 bg-white/70 sm:h-16 sm:w-16">
                                 <PlayerIcon />
                               </span>
-                              <span className="text-[10px] font-black uppercase tracking-[0.16em]">
+                              <span className="text-[8px] font-black uppercase tracking-[0.12em] sm:text-[10px] sm:tracking-[0.16em]">
                                 Foto em breve
                               </span>
                             </div>
                           )}
                         </div>
 
-                        <div className="p-5">
-                          <h4 className="font-display text-3xl font-black uppercase leading-none text-club-deep">
+                        <div className="p-3 sm:p-5">
+                          <h4 className="font-display text-xl font-black uppercase leading-[0.95] text-club-deep sm:text-3xl sm:leading-none">
                             {player.name}
                           </h4>
 
@@ -369,7 +369,12 @@ export default function Home() {
       <section
         id="patrocinadores"
         className="scroll-mt-20 bg-white py-20 text-club-deep sm:py-24"
-        style={{ backgroundColor: "#ffffff", colorScheme: "light" }}
+        style={{
+          backgroundColor: "#ffffff",
+          backgroundImage: "linear-gradient(#ffffff, #ffffff)",
+          colorScheme: "only light",
+          forcedColorAdjust: "none",
+        }}
       >
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
           <SectionHeading
@@ -381,7 +386,12 @@ export default function Home() {
 
           <div
             className="sponsor-carousel mt-10 rounded-3xl border border-club-deep/10 bg-white py-6 sm:py-8"
-            style={{ backgroundColor: "#ffffff", colorScheme: "light" }}
+            style={{
+              backgroundColor: "#ffffff",
+              backgroundImage: "linear-gradient(#ffffff, #ffffff)",
+              colorScheme: "only light",
+              forcedColorAdjust: "none",
+            }}
           >
             <div className="sponsor-track">
               <div className="sponsor-group">
@@ -589,7 +599,13 @@ function SponsorCard({
   return (
     <article
       className="sponsor-card overflow-hidden rounded-2xl border border-club-deep/10 bg-white shadow-[0_12px_35px_rgba(3,17,38,0.08)]"
-      style={{ backgroundColor: "#ffffff", colorScheme: "light" }}
+      style={{
+        backgroundColor: "#ffffff",
+        backgroundImage: "linear-gradient(#ffffff, #ffffff)",
+        color: "#031126",
+        colorScheme: "only light",
+        forcedColorAdjust: "none",
+      }}
     >
       <a
         href={sponsor.primaryUrl}
@@ -599,7 +615,15 @@ function SponsorCard({
         className="group block p-4 outline-none focus-visible:ring-2 focus-visible:ring-club-blue sm:p-5"
         aria-label={`Visitar ${sponsor.name}`}
       >
-        <div className="flex h-44 items-center justify-center sm:h-52">
+        <div
+          className="flex h-44 items-center justify-center bg-white sm:h-52"
+          style={{
+            backgroundColor: "#ffffff",
+            backgroundImage: "linear-gradient(#ffffff, #ffffff)",
+            colorScheme: "only light",
+            forcedColorAdjust: "none",
+          }}
+        >
           <Image
             src={sponsor.image}
             alt={`Logo ${sponsor.name}`}
@@ -628,7 +652,13 @@ function SponsorCard({
 
       <div
         className="flex flex-wrap gap-2 border-t border-club-deep/8 bg-white px-5 py-3 sm:px-6"
-        style={{ backgroundColor: "#ffffff", colorScheme: "light" }}
+        style={{
+          backgroundColor: "#ffffff",
+          backgroundImage: "linear-gradient(#ffffff, #ffffff)",
+          color: "#031126",
+          colorScheme: "only light",
+          forcedColorAdjust: "none",
+        }}
       >
         {sponsor.links.map((link) => (
           <a

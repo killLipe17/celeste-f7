@@ -119,22 +119,22 @@ export default function GameCenter() {
 
             {nextMatch ? (
               <>
-                <div className="relative z-10 flex flex-wrap items-center justify-between gap-3">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full bg-club-sky px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-club-deep">
+                <div className="relative z-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+                  <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
+                    <span className="flex min-h-10 items-center justify-center rounded-full bg-club-sky px-3 py-2 text-center text-[10px] font-black uppercase tracking-[0.12em] text-club-deep sm:px-4 sm:text-xs sm:tracking-[0.16em]">
                       {nextStatus}
                     </span>
-                    <span className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-white/80">
+                    <span className="flex min-h-10 items-center justify-center rounded-full border border-white/15 bg-white/5 px-3 py-2 text-center text-[10px] font-black uppercase tracking-[0.12em] text-white/80 sm:px-4 sm:text-xs sm:tracking-[0.14em]">
                       {competitionLabel(nextMatch)}
                     </span>
                   </div>
 
-                  <span className="text-xs font-bold uppercase tracking-[0.16em] text-white/50">
+                  <span className="hidden text-xs font-bold uppercase tracking-[0.16em] text-white/50 sm:inline">
                     {nextMatch.displayDate}
                   </span>
                 </div>
 
-                <div className="relative z-10 my-12 grid items-center gap-6 sm:grid-cols-[1fr_auto_1fr] sm:gap-8">
+                <div className="relative z-10 my-10 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:my-12 sm:gap-8">
                   <TeamMark
                     name="Celeste F7"
                     logo={siteData.images.crest}
@@ -142,10 +142,10 @@ export default function GameCenter() {
                   />
 
                   <div className="flex flex-col items-center">
-                    <span className="font-display text-4xl font-black text-club-sky">
+                    <span className="font-display text-2xl font-black text-club-sky sm:text-4xl">
                       VS
                     </span>
-                    <span className="mt-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
+                    <span className="mt-1 hidden text-[10px] font-bold uppercase tracking-[0.18em] text-white/40 sm:block">
                       Sábado • {nextMatch.time}
                     </span>
                   </div>
@@ -273,10 +273,14 @@ function TeamMark({
   opponent?: boolean;
 }) {
   return (
-    <div className="flex min-w-0 flex-col items-center gap-3 text-center">
+    <div className="flex min-w-0 flex-col items-center gap-2 text-center sm:gap-3">
       <div
-        className={`flex h-28 w-28 items-center justify-center rounded-full border border-white/15 bg-white/7 sm:h-32 sm:w-32 ${
-          logo ? (opponent ? "p-1.5" : "p-3") : "p-4"
+        className={`flex h-20 w-20 items-center justify-center rounded-full border border-white/15 bg-white/7 sm:h-32 sm:w-32 ${
+          logo
+            ? opponent
+              ? "p-1 sm:p-1.5"
+              : "p-2 sm:p-3"
+            : "p-2 sm:p-4"
         }`}
       >
         {logo ? (
@@ -294,11 +298,7 @@ function TeamMark({
         )}
       </div>
 
-      <strong
-        className={`max-w-[220px] font-display font-black uppercase leading-none ${
-          opponent ? "text-2xl sm:text-3xl" : "text-2xl sm:text-3xl"
-        }`}
-      >
+      <strong className="max-w-[130px] font-display text-base font-black uppercase leading-[0.95] sm:max-w-[220px] sm:text-3xl sm:leading-none">
         {name}
       </strong>
     </div>
