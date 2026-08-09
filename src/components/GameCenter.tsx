@@ -134,7 +134,27 @@ export default function GameCenter() {
                   </span>
                 </div>
 
-                <div className="relative z-10 my-10 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:my-12 sm:gap-8">
+                <div className="relative z-10 mt-8 sm:hidden">
+                  <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+                    <MiniTeamMark
+                      name="Celeste F7"
+                      logo={siteData.images.crest}
+                      alt="Escudo do Celeste F7"
+                    />
+
+                    <span className="font-display text-2xl font-black text-club-sky">
+                      VS
+                    </span>
+
+                    <MiniTeamMark
+                      name={opponentName(nextMatch)}
+                      logo={nextMatch.opponentLogo}
+                      alt={`Escudo de ${opponentName(nextMatch)}`}
+                    />
+                  </div>
+                </div>
+
+                <div className="relative z-10 my-12 hidden items-center gap-8 sm:grid sm:grid-cols-[1fr_auto_1fr]">
                   <TeamMark
                     name="Celeste F7"
                     logo={siteData.images.crest}
@@ -142,10 +162,10 @@ export default function GameCenter() {
                   />
 
                   <div className="flex flex-col items-center">
-                    <span className="font-display text-2xl font-black text-club-sky sm:text-4xl">
+                    <span className="font-display text-4xl font-black text-club-sky">
                       VS
                     </span>
-                    <span className="mt-1 hidden text-[10px] font-bold uppercase tracking-[0.18em] text-white/40 sm:block">
+                    <span className="mt-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
                       Sábado • {nextMatch.time}
                     </span>
                   </div>

@@ -42,6 +42,9 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${geist.variable} ${barlowCondensed.variable} scroll-smooth antialiased`}
     >
+      <head>
+        <meta name="color-scheme" content="only light" />
+      </head>
       <body>{children}</body>
     </html>
   );
