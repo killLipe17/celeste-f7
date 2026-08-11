@@ -1,4 +1,5 @@
 export type CompetitionType = "Amistoso" | "Copa" | "Festival";
+export type MatchKind = "match" | "holiday";
 export type PlayerPosition = "Goleiro" | "Fixo" | "Meia" | "Ala" | "Pivô";
 
 export type GoalScorer = {
@@ -15,6 +16,7 @@ export type FrameResult = {
 
 export type MatchData = {
   id: string;
+  kind?: MatchKind;
   date: string;
   displayDate: string;
   time: string;
@@ -79,7 +81,23 @@ export const siteData = {
 
   matches: [
     {
+      id: "2026-08-01-rancho",
+      kind: "match",
+      date: "2026-08-01",
+      displayDate: "01/08",
+      time: "10h",
+      venue: "CDC Rola Bola",
+      opponent: "RANCHO",
+      opponentLogo: null,
+      competition: {
+        type: "Amistoso",
+      },
+      frameCount: 2,
+      result: null,
+    },
+    {
       id: "2026-08-08-mud",
+      kind: "match",
       date: "2026-08-08",
       displayDate: "08/08",
       time: "10h",
@@ -109,6 +127,7 @@ export const siteData = {
     },
     {
       id: "2026-08-15-gandaia",
+      kind: "match",
       date: "2026-08-15",
       displayDate: "15/08",
       time: "10h",
@@ -123,6 +142,7 @@ export const siteData = {
     },
     {
       id: "2026-08-22-festival-r9",
+      kind: "match",
       date: "2026-08-22",
       displayDate: "22/08",
       time: "10h",
@@ -137,13 +157,74 @@ export const siteData = {
       result: null,
     },
     {
-      id: "2026-08-29-unidos-delpi",
+      id: "2026-08-29-israel-f7",
+      kind: "match",
       date: "2026-08-29",
       displayDate: "29/08",
       time: "10h",
       venue: "CDC Rola Bola",
-      opponent: "UNIDOS DA DELPI",
-      opponentLogo: "/images/opponents/unidos-da-delpi.png",
+      opponent: "ISRAEL F7",
+      opponentLogo: null,
+      competition: {
+        type: "Amistoso",
+      },
+      frameCount: 2,
+      result: null,
+    },
+    {
+      id: "2026-09-05-feriado",
+      kind: "holiday",
+      date: "2026-09-05",
+      displayDate: "05/09",
+      time: "—",
+      venue: "CDC Rola Bola",
+      opponent: "FERIADO",
+      opponentLogo: null,
+      competition: {
+        type: "Amistoso",
+      },
+      frameCount: 1,
+      result: null,
+    },
+    {
+      id: "2026-09-12-los-patrones",
+      kind: "match",
+      date: "2026-09-12",
+      displayDate: "12/09",
+      time: "10h",
+      venue: "CDC Rola Bola",
+      opponent: "LOS PATRONES",
+      opponentLogo: null,
+      competition: {
+        type: "Amistoso",
+      },
+      frameCount: 2,
+      result: null,
+    },
+    {
+      id: "2026-09-19-los-patrones",
+      kind: "match",
+      date: "2026-09-19",
+      displayDate: "19/09",
+      time: "10h",
+      venue: "CDC Rola Bola",
+      opponent: "LOS PATRONES",
+      opponentLogo: null,
+      competition: {
+        type: "Amistoso",
+      },
+      frameCount: 2,
+      result: null,
+    },
+    {
+      id: "2026-09-26-los-patrones",
+      kind: "match",
+      date: "2026-09-26",
+      displayDate: "26/09",
+      time: "10h",
+      venue: "CDC Rola Bola",
+      opponent: "LOS PATRONES",
+      opponentLogo: null,
       competition: {
         type: "Amistoso",
       },
