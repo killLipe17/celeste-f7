@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Celeste F7
 
-## Getting Started
+Site institucional desenvolvido para o **Celeste F7**, time de Futebol 7 de São Paulo, com foco em organizar sua história, jogos, elenco, patrocinadores e principais informações em uma presença digital própria.
 
-First, run the development server:
+**Projeto publicado:** https://celeste-f7.vercel.app/  
+**Estudo de caso:** https://portfolio-seven-coral-t58e5zn2u9.vercel.app/projetos/celeste-f7
+
+## Sobre o projeto
+
+O Celeste F7 foi fundado em 2007 e precisava de um espaço próprio para concentrar informações que normalmente ficariam distribuídas entre redes sociais e comunicação interna.
+
+O site foi criado para apresentar a identidade do time e oferecer uma estrutura que possa continuar evoluindo conforme novos jogos, jogadores, resultados, imagens, conquistas e patrocinadores forem adicionados.
+
+## Principais recursos
+
+- História do time
+- Próximos jogos
+- Resultados
+- Elenco organizado por posições
+- Conquistas
+- Patrocinadores
+- Galeria
+- Localização
+- Links para redes sociais
+- Layout responsivo
+- Estrutura preparada para atualização de conteúdo
+
+## Tecnologias
+
+- Next.js 16.3
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- App Router
+- Git
+- GitHub
+- Vercel
+
+## Estrutura do projeto
+
+A versão atual prioriza simplicidade e manutenção.
+
+As informações são organizadas em estruturas locais, evitando adicionar banco de dados onde ainda não existe necessidade operacional.
+
+Essa abordagem mantém o projeto leve e facilita futuras evoluções conforme a quantidade de conteúdo aumentar.
+
+## Executando localmente
+
+Clone o repositório:
+
+```bash
+git clone https://github.com/killLipe17/celeste-f7.git
+```
+
+Entre na pasta:
+
+```bash
+cd celeste-f7
+```
+
+Instale as dependências:
+
+```bash
+npm install
+```
+
+Execute:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+A aplicação ficará disponível em:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Build
 
-## Learn More
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Objetivo técnico
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+O projeto foi utilizado para trabalhar principalmente com:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- arquitetura de componentes;
+- organização de conteúdo;
+- interfaces responsivas;
+- Next.js App Router;
+- TypeScript;
+- identidade visual aplicada à interface;
+- manutenção simples;
+- publicação contínua com GitHub e Vercel.
 
-## Deploy on Vercel
+## Desenvolvedor
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Fellipe Santos Leite**  
+Desenvolvedor Web — LIPEXP Studio
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Portfólio: https://portfolio-seven-coral-t58e5zn2u9.vercel.app/
+- GitHub: https://github.com/killLipe17
+- LinkedIn: https://www.linkedin.com/in/fellipe-leite-4412a3377/
+
+---
+
+**LIPEXP Studio**  
+*Level up your business.*
