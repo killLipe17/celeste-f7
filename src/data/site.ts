@@ -1,5 +1,6 @@
 export type CompetitionType = "Amistoso" | "Copa" | "Festival";
 export type MatchKind = "match" | "holiday";
+export type MatchStatus = "scheduled" | "cancelled";
 export type PlayerPosition = "Goleiro" | "Fixo" | "Meia" | "Ala" | "Pivô";
 
 export type GoalScorer = {
@@ -17,6 +18,7 @@ export type FrameResult = {
 export type MatchData = {
   id: string;
   kind?: MatchKind;
+  status?: MatchStatus;
   date: string;
   displayDate: string;
   time: string;
@@ -128,6 +130,7 @@ export const siteData = {
     {
       id: "2026-08-15-gandaia",
       kind: "match",
+      status: "cancelled",
       date: "2026-08-15",
       displayDate: "15/08",
       time: "10h",

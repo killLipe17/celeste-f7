@@ -32,7 +32,10 @@ export default function GameCenter() {
     if (!today) {
       return (
         siteData.matches.find(
-          (match) => match.kind === "match" && match.result === null,
+          (match) =>
+            match.kind === "match" &&
+            match.status !== "cancelled" &&
+            match.result === null,
         ) ?? null
       );
     }
@@ -41,6 +44,7 @@ export default function GameCenter() {
       siteData.matches.find(
         (match) =>
           match.kind === "match" &&
+          match.status !== "cancelled" &&
           match.result === null &&
           match.date >= today,
       ) ?? null
@@ -484,6 +488,8 @@ function TeamMark({
 }
 
 function CalendarRow({ match }: { match: MatchData }) {
+  const cancelled = match.status === "cancelled";
+
   return (
     <div className="rounded-2xl border border-club-deep/8 bg-white px-4 py-4">
       <div className="flex items-center gap-4">
@@ -516,9 +522,15 @@ function CalendarRow({ match }: { match: MatchData }) {
       </div>
 
       <div className="mt-3 flex flex-wrap gap-2 pl-[4.5rem]">
-        <span className="rounded-full bg-club-sky/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-club-blue">
-          {match.frameCount === 1 ? "1 quadro" : "2 quadros"}
-        </span>
+        {cancelled ? (
+          <span className="rounded-full bg-red-50 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-red-600">
+            Cancelado
+          </span>
+        ) : (
+          <span className="rounded-full bg-club-sky/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-club-blue">
+            {match.frameCount === 1 ? "1 quadro" : "2 quadros"}
+          </span>
+        )}
       </div>
     </div>
   );
